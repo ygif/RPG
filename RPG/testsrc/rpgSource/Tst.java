@@ -2,10 +2,11 @@ package rpgSource;
 
 import org.junit.Test;
 
+import rpgSource.entity.Dragon;
+import rpgSource.entity.Ogre;
+import rpgSource.entity.Player;
+
 import org.junit.Assert;
-import rpgSource.Dragon;
-import rpgSource.Ogre;
-import rpgSource.Player;
 
 import static org.junit.Assert.assertEquals;
 
@@ -54,7 +55,7 @@ public class Tst {
 	public void testDragonFlying(){
 		d.fly();
 		Assert.assertTrue("The 'flying' variable wasn't set correctly.", d.flying);
-		assertEquals(d.currentHealth, d.reduceHealth(5), 0.0);
+		assertEquals(d.getCurrentHealth(), d.reduceHealth(5), 0.0);
 		d.flying = false;
 		cHealth = d.getCurrentHealth() - (Math.floor(((Math.log(d.getDefense()) * 5) / 4)));
 		assertEquals(cHealth, d.reduceHealth(5), 0.5);

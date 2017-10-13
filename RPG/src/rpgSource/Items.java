@@ -14,7 +14,7 @@ public class Items {
 	 * @param name The name of the item.
 	 * @param usageMessage The message displayed when an item is used.
 	 */
-	Items(int quantity, double damage, String name, String usageMessage){
+	public Items(int quantity, double damage, String name, String usageMessage){
 		this.quantity = quantity;
 		this.damage = damage;
 		this.name = name;
@@ -25,7 +25,7 @@ public class Items {
 	 * This method is ran when the player decides to use an item.
 	 * @return The damage the item does if defense is ignored
 	 */
-	double useItem(){
+	public double useItem(){
 		if(quantity < 1){
 			RPGGUI.getInstance().appendToConsole("You have ran out of this item.\n");
 		} else {

@@ -1,4 +1,4 @@
-package rpgSource;
+package rpgSource.entity;
 
 interface PlayerActions extends Actions{
 	boolean flee();

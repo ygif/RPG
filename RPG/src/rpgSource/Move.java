@@ -1,22 +1,24 @@
 package rpgSource;
 
+import rpgSource.entity.Entities;
+
 public abstract class Move {
 
-	int baseDamage;
-	String name;
-	String des;
-	LivingThings user;
+	public int baseDamage;
+	public String name;
+	public String des;
+	public Entities user;
 	
 	public Move(int bd, String n, String d) {
 		this(bd, n, d, null);
 	}
 	
-	public Move(int bd, String n, String d, LivingThings l) {
+	public Move(int bd, String n, String d, Entities l) {
 		baseDamage = bd;
 		name = n;
 		des = d;
 		user = l;
 	}
 	
-	abstract void doSomething();
+	public abstract void doSomething();
 }

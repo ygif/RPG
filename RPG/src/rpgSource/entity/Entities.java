@@ -1,6 +1,8 @@
-package rpgSource;
+package rpgSource.entity;
 
 import java.text.DecimalFormat;
+
+import rpgSource.RPGGUI;
 
 /**
  * This class contains everything an entity in a battle should have.
@@ -9,27 +11,27 @@ import java.text.DecimalFormat;
  *
  */
 
-class LivingThings {
+public class Entities {
 	String name;
-	double maxHealth;
+	private double maxHealth;
 	double currentHealth;
 	int attack;
 	int defense;
 	double totalDamage;
 	double level;
-	int speed;
+	private int speed;
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
 	static RPGGUI ui = RPGGUI.getInstance();
 	
-	LivingThings(int health, int attack, int defense, int speed) {
-		maxHealth = health;
+	Entities(int health, int attack, int defense, int speed) {
+		setMaxHealth(health);
 		currentHealth = health;
 		this.attack = attack;
 		this.defense = defense;
-		this.speed = speed;
+		this.setSpeed(speed);
 	}
 	
-	LivingThings(){
+	Entities(){
 		
 	}
 	
@@ -76,7 +78,7 @@ class LivingThings {
 	 * This method returns the entity's name.
 	 * @return The entity's name.
 	 */
-	String getName(){
+	public String getName(){
 		return name;
 	}
 	
@@ -90,6 +92,22 @@ class LivingThings {
 	
 	public int getAttack(){
 		return attack;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	public double getMaxHealth() {
+		return maxHealth;
+	}
+
+	public void setMaxHealth(double maxHealth) {
+		this.maxHealth = maxHealth;
 	}
 }
 

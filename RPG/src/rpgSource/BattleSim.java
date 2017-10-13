@@ -4,11 +4,17 @@ import java.text.DecimalFormat;
 
 import javax.swing.*;
 
+import rpgSource.entity.Dragon;
+import rpgSource.entity.Enemy;
+import rpgSource.entity.MegaOgre;
+import rpgSource.entity.Ogre;
+import rpgSource.entity.Player;
+
 public class BattleSim {
 	static Player player1 = new Player(45, 15, 10, 12);
 	static Enemy[] enemy1 = new Enemy[3];
 	static double damage = 0;
-	static int turn = 1;
+	public static int turn = 1;
 	static boolean playersTurn;
 	static int x;
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
@@ -29,8 +35,8 @@ public class BattleSim {
 		gui.dispose();
 	}
 	
-	static String battle() {
-		while(player1.currentHealth > 0 || enemy1[x].currentHealth > 0 ){
+	public static String battle() {
+		while(player1.getCurrentHealth() > 0 || enemy1[x].getCurrentHealth() > 0 ){
 			if(playersTurn == true){
 				gui.appendToConsole("It's the players turn.\n");
 				gui.appendToConsole("Choose an action:\n");
@@ -41,8 +47,8 @@ public class BattleSim {
 				}
 				playersTurn = false;
 			}
-			if(enemy1[x].currentHealth <= 0){
-				player1.experiencePoints += 6;
+			if(enemy1[x].getCurrentHealth() <= 0){
+				player1.setExperiencePoints(player1.getExperiencePoints() + 6);
 				player1.increaseLevel();
 				return "The player";
 			}
@@ -50,11 +56,11 @@ public class BattleSim {
 			if(playersTurn == false) {
 				if (x == 1) {
 					((Dragon) enemy1[x]).land();
-					gui.appendToConsole("It's the " + enemy1[x].name + "'s turn.\n");
+					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
 					playersTurn = true;
 					damage = ((Dragon) enemy1[x]).randomActionSelctor();
 				} else {
-					gui.appendToConsole("It's the " + enemy1[x].name + "'s turn.\n");
+					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
 					damage = enemy1[x].useAMoveRandom((int) (Math.random() * 100));
 					playersTurn = true;
 				}
@@ -62,19 +68,19 @@ public class BattleSim {
 					player1.reduceHealth(damage);
 					damage = 0;
 				}
-				gui.updatePlayerHealth(numberPrinter.format(player1.currentHealth));
-				gui.appendToConsole("The player has " + numberPrinter.format(player1.currentHealth) + " health.\n");
+				gui.updatePlayerHealth(numberPrinter.format(player1.getCurrentHealth()));
+				gui.appendToConsole("The player has " + numberPrinter.format(player1.getCurrentHealth()) + " health.\n");
 			}
-			if (player1.currentHealth <= 0){
+			if (player1.getCurrentHealth() <= 0){
 				return "The enemy";
 			}
-			gui.updateEnemyHealth(numberPrinter.format(enemy1[x].currentHealth));
+			gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
 			turn++;
 		}
 		return "nobody";
 	}
 	
-	static String selectAction() {
+	public static String selectAction() {
 		int action = getSelector();
 		RPGGUI.resetSelector();
 		switch (action) {
@@ -86,8 +92,8 @@ public class BattleSim {
 			damage = player1.useAMove(move);
 			if (damage > 0) {
 				enemy1[x].reduceHealth(damage);
-				gui.updateEnemyHealth(numberPrinter.format(enemy1[x].currentHealth));
-				gui.appendToConsole("The " + enemy1[x].name + " has " + numberPrinter.format(enemy1[x].currentHealth) + " health.\n");
+				gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
+				gui.appendToConsole("The " + enemy1[x].getName() + " has " + numberPrinter.format(enemy1[x].getCurrentHealth()) + " health.\n");
 			}
 			damage = 0;
 			return "nothing";
@@ -109,16 +115,16 @@ public class BattleSim {
 			if (damage > 0) {
 				gui.appendToConsole(numberPrinter.format(damage) + " damage\n");
 				enemy1[x].reduceHealthRecoil(damage);
-				gui.updateEnemyHealth(numberPrinter.format(enemy1[x].currentHealth));
-				gui.appendToConsole("The " + enemy1[x].name + " has " + numberPrinter.format(enemy1[x].currentHealth) + " health.\n");
+				gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
+				gui.appendToConsole("The " + enemy1[x].getName() + " has " + numberPrinter.format(enemy1[x].getCurrentHealth()) + " health.\n");
 			}
-			gui.updatePlayerHealth(numberPrinter.format(player1.currentHealth));
+			gui.updatePlayerHealth(numberPrinter.format(player1.getCurrentHealth()));
 			return "Used an item.";
 		case 4:
 			damage = player1.useSpecialAttack();
 			enemy1[x].reduceHealth(damage);
-			gui.updateEnemyHealth(numberPrinter.format(enemy1[x].currentHealth));
-			gui.appendToConsole("The enemy has " + numberPrinter.format(enemy1[x].currentHealth) + " health.\n");
+			gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
+			gui.appendToConsole("The enemy has " + numberPrinter.format(enemy1[x].getCurrentHealth()) + " health.\n");
 			damage = 0;
 			return "nothing";
 		default:
@@ -143,7 +149,7 @@ public class BattleSim {
 	}
 	
 	static void setWhoGoesFirst() {
-		if (player1.speed >= enemy1[x].speed) {
+		if (player1.getSpeed() >= enemy1[x].getSpeed()) {
 			playersTurn = true;
 		} else {
 			playersTurn = false;
@@ -151,11 +157,11 @@ public class BattleSim {
 	}
 	
 	static String getMaxPlayerHealth(){
-		return numberPrinter.format(player1.maxHealth);
+		return numberPrinter.format(player1.getMaxHealth());
 	}
 	
 	static String getMaxEnemyHealth(){
-		return numberPrinter.format(enemy1[x].maxHealth);
+		return numberPrinter.format(enemy1[x].getMaxHealth());
 	}
 	
 	static String getEnemyName(){
@@ -166,7 +172,7 @@ public class BattleSim {
 		enemy1[0] = new Ogre(2, 30, 8, 8, 10, "ogre");
 		enemy1[1] = new Dragon(2, 30, 7, 9, 10, "dragon");
 		enemy1[2] = new MegaOgre(2, 40, 10, 9, 8, "mega ogre");
-		Object[] options = {enemy1[0].name, enemy1[1].name, enemy1[2].name};
+		Object[] options = {enemy1[0].getName(), enemy1[1].getName(), enemy1[2].getName()};
 		x = JOptionPane.showOptionDialog(null, "Select your enemy.", "Enemy Selector", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
 		if(x == -1){
 			System.exit(0);

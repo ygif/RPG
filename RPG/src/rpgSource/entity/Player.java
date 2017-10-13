@@ -1,4 +1,9 @@
-package rpgSource;
+package rpgSource.entity;
+
+import rpgSource.BattleSim;
+import rpgSource.Items;
+import rpgSource.Move;
+import rpgSource.normAtk;
 
 /**
  * This class controls everything that the user wants to do.
@@ -7,7 +12,7 @@ package rpgSource;
  *
  */
 
-public class Player extends LivingThings implements PlayerActions{
+public class Player extends Entities implements PlayerActions{
 
 	public Player(int health, int attack, int defense, int speed) {
 		super(health, attack, defense, speed);
@@ -21,8 +26,8 @@ public class Player extends LivingThings implements PlayerActions{
 	int potions = 2;
 	int damagePotions = 1;
 	int level = 1;
-	int experiencePoints = 0;
-	int charge = 0;
+	private int experiencePoints = 0;
+	public int charge = 0;
 	
 	Move atk;
 	
@@ -35,7 +40,7 @@ public class Player extends LivingThings implements PlayerActions{
 		totalDamage = 0;
 		switch (moveSelector) {
 		case 1:
-			LivingThings.ui.appendToConsole(atk.des);
+			Entities.ui.appendToConsole(atk.des);
 			totalDamage = atk.baseDamage * ((double) attack/10);
 			atk.doSomething();
 			/*if (charge < 100) {
@@ -43,23 +48,23 @@ public class Player extends LivingThings implements PlayerActions{
 			}*/
 			return totalDamage;
 		case 2:
-			LivingThings.ui.appendToConsole("The player slashes at the enemy with a sword.\n");
+			Entities.ui.appendToConsole("The player slashes at the enemy with a sword.\n");
 			totalDamage = 14 * ((double) attack/10);
 			if (charge < 100) {
 				charge += 20;
 			}
 			return totalDamage;
 		case 3:
-			LivingThings.ui.appendToConsole("The player emits a beam of concentrated magic at the enemy.\n");
+			Entities.ui.appendToConsole("The player emits a beam of concentrated magic at the enemy.\n");
 			totalDamage =  18 * ((double) attack/10);	
 			if (charge < 100) {
 				charge += 20;
 			}
 			return totalDamage;
 		default:
-			LivingThings.ui.appendToConsole("Invalid input.\n\n");
-			LivingThings.ui.appendToConsole("Choose an action:\n");
-			LivingThings.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			Entities.ui.appendToConsole("Invalid input.\n\n");
+			Entities.ui.appendToConsole("Choose an action:\n");
+			Entities.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
 			BattleSim.selectAction();
 			return 0;
 		}
@@ -72,12 +77,12 @@ public class Player extends LivingThings implements PlayerActions{
 	public double useSpecialAttack() {
 		totalDamage = 0;
 		if (charge >= 100) {
-			LivingThings.ui.appendToConsole("The player uses the special move.\n");
+			Entities.ui.appendToConsole("The player uses the special move.\n");
 			totalDamage = 30 * (attack/10);
 			charge = 0;
 			return totalDamage;
 		} else if(charge < 100) {
-			LivingThings.ui.appendToConsole("The player is not completely charged up yet.\n");
+			Entities.ui.appendToConsole("The player is not completely charged up yet.\n");
 			BattleSim.battle();
 		}
 		return totalDamage;
@@ -107,18 +112,18 @@ public class Player extends LivingThings implements PlayerActions{
 		case 1:
 			double temp = items[0].useItem(); //Player uses one health potion.
 			currentHealth += temp;
-			if (currentHealth > maxHealth) {
-				currentHealth = maxHealth;	
-				LivingThings.ui.appendToConsole("The player is at full health.\n");
+			if (currentHealth > getMaxHealth()) {
+				currentHealth = getMaxHealth();	
+				Entities.ui.appendToConsole("The player is at full health.\n");
 			}
-			LivingThings.ui.appendToConsole("The player has " + numberPrinter.format(currentHealth) + " health left.\n");
+			Entities.ui.appendToConsole("The player has " + numberPrinter.format(currentHealth) + " health left.\n");
 			return 0;
 		case 2:
 			return items[1].useItem();//Player uses damage potion.
 		default:
-			LivingThings.ui.appendToConsole("Invalid input.\n\n");
-			LivingThings.ui.appendToConsole("Choose an action:\n");
-			LivingThings.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			Entities.ui.appendToConsole("Invalid input.\n\n");
+			Entities.ui.appendToConsole("Choose an action:\n");
+			Entities.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
 			BattleSim.selectAction();
 		}
 		return 0;
@@ -129,17 +134,25 @@ public class Player extends LivingThings implements PlayerActions{
 	 */
 	public void increaseLevel() {
 		int levelUpExp = (10 * level)/2;
-		if(experiencePoints >= levelUpExp){
-			experiencePoints = 0;
+		if(getExperiencePoints() >= levelUpExp){
+			setExperiencePoints(0);
 			level++;
-			maxHealth += 5;
-			currentHealth = maxHealth;
+			setMaxHealth(getMaxHealth() + 5);
+			currentHealth = getMaxHealth();
 			attack += 4;
 			defense += 2;
-			speed += 2;
-			LivingThings.ui.appendToConsole("\n");
-			//LivingThings.ui.appendToConsole("The player has " + experiencePoints + " exp.\n");
-			LivingThings.ui.appendToConsole("The player is now level " + level + ".\n");
+			setSpeed(getSpeed() + 2);
+			Entities.ui.appendToConsole("\n");
+			//Entities.ui.appendToConsole("The player has " + experiencePoints + " exp.\n");
+			Entities.ui.appendToConsole("The player is now level " + level + ".\n");
 		}
+	}
+
+	public int getExperiencePoints() {
+		return experiencePoints;
+	}
+
+	public void setExperiencePoints(int experiencePoints) {
+		this.experiencePoints = experiencePoints;
 	}
 }

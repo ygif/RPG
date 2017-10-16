@@ -40,7 +40,7 @@ public class Player extends Entities implements PlayerActions{
 		totalDamage = 0;
 		switch (moveSelector) {
 		case 1:
-			message(atk.des);
+			Entities.ui.appendToConsole(atk.des);
 			totalDamage = atk.baseDamage * ((double) attack/10);
 			atk.doSomething();
 			/*if (charge < 100) {
@@ -48,23 +48,23 @@ public class Player extends Entities implements PlayerActions{
 			}*/
 			return totalDamage;
 		case 2:
-			message("The player slashes at the enemy with a sword.\n");
+			Entities.ui.appendToConsole("The player slashes at the enemy with a sword.\n");
 			totalDamage = 14 * ((double) attack/10);
 			if (charge < 100) {
 				charge += 20;
 			}
 			return totalDamage;
 		case 3:
-			message("The player emits a beam of concentrated magic at the enemy.\n");
+			Entities.ui.appendToConsole("The player emits a beam of concentrated magic at the enemy.\n");
 			totalDamage =  18 * ((double) attack/10);	
 			if (charge < 100) {
 				charge += 20;
 			}
 			return totalDamage;
 		default:
-			message("Invalid input.\n\n");
-			message("Choose an action:\n");
-			message("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			Entities.ui.appendToConsole("Invalid input.\n\n");
+			Entities.ui.appendToConsole("Choose an action:\n");
+			Entities.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
 			BattleSim.selectAction();
 			return 0;
 		}
@@ -77,12 +77,12 @@ public class Player extends Entities implements PlayerActions{
 	public double useSpecialAttack() {
 		totalDamage = 0;
 		if (charge >= 100) {
-			message("The player uses the special move.\n");
+			Entities.ui.appendToConsole("The player uses the special move.\n");
 			totalDamage = 30 * (attack/10);
 			charge = 0;
 			return totalDamage;
 		} else if(charge < 100) {
-			message("The player is not completely charged up yet.\n");
+			Entities.ui.appendToConsole("The player is not completely charged up yet.\n");
 			BattleSim.battle();
 		}
 		return totalDamage;
@@ -114,16 +114,16 @@ public class Player extends Entities implements PlayerActions{
 			currentHealth += temp;
 			if (currentHealth > getMaxHealth()) {
 				currentHealth = getMaxHealth();	
-				message("The player is at full health.\n");
+				Entities.ui.appendToConsole("The player is at full health.\n");
 			}
-			message("The player has " + numberPrinter.format(currentHealth) + " health left.\n");
+			Entities.ui.appendToConsole("The player has " + numberPrinter.format(currentHealth) + " health left.\n");
 			return 0;
 		case 2:
 			return items[1].useItem();//Player uses damage potion.
 		default:
-			message("Invalid input.\n\n");
-			message("Choose an action:\n");
-			message("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			Entities.ui.appendToConsole("Invalid input.\n\n");
+			Entities.ui.appendToConsole("Choose an action:\n");
+			Entities.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
 			BattleSim.selectAction();
 		}
 		return 0;
@@ -142,9 +142,9 @@ public class Player extends Entities implements PlayerActions{
 			attack += 4;
 			defense += 2;
 			setSpeed(getSpeed() + 2);
-			message("\n");
-			//message("The player has " + experiencePoints + " exp.\n");
-			message("The player is now level " + level + ".\n");
+			Entities.ui.appendToConsole("\n");
+			//Entities.ui.appendToConsole("The player has " + experiencePoints + " exp.\n");
+			Entities.ui.appendToConsole("The player is now level " + level + ".\n");
 		}
 	}
 

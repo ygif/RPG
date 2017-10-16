@@ -1,31 +1,38 @@
 package rpgSource.entity;
 
+import rpgSource.moves.Move;
+import rpgSource.moves.NormAtk;
+import rpgSource.moves.RCAttack;
+
 public class Ogre extends Enemy{
 
+	Move atk;
+	Move club;
+	Move ram;
+	
 	public Ogre(int level, int health, int attack, int defense, int speed, String name) {
 		super(level, health, attack, defense, speed);
 		this.name = name;
+		atk = new NormAtk(12, "normal attack", "The " + name + " attacks the player.\n", this);
+		club = new NormAtk(16, "club hit", "The " + name + " hits the player with a club.\n", this);
+		ram = new RCAttack(22, "ram", "The " + name + " rams itself into the player\n", this);
 	}	
 	@Override
 	public double useAMoveRandom(int s){
-		int temp = s;
-		if(temp >= 0 && temp < 45){
+		if(s >= 0 && s < 45){
 			//Attack move
-			Entities.ui.appendToConsole("The " + name + " attacks the player.\n");
-			totalDamage = 12 * ((double) attack/10);
+			Entities.ui.appendToConsole(atk.getDes());
+			totalDamage = atk.baseDamage * ((double) attack/10);
 			return totalDamage;
-		}else if(temp >= 45 && temp < 90){
+		}else if(s >= 45 && s < 90){
 			//Club hit
-			Entities.ui.appendToConsole("The " + name + " hits the player with a club.\n");
-			totalDamage = 16 * ((double) attack/10);
-		}else if (temp >= 90 && temp < 100) {
+			Entities.ui.appendToConsole(club.getDes());
+			totalDamage = club.baseDamage * ((double) attack/10);
+		}else if (s >= 90 && s < 100) {
 			//charge attack
-			double recoil;
-			Entities.ui.appendToConsole("The " + name + " rams itself into the player\n");
-			totalDamage = 22 * ((double) attack/10);
-			recoil = Math.floor(totalDamage * 0.1);
-			reduceHealthRecoil(recoil);
-			Entities.ui.appendToConsole("The ogre takes " + numberPrinter.format(recoil) + " recoil damage and has " + numberPrinter.format(currentHealth) + " health left.\n");
+			Entities.ui.appendToConsole(ram.getDes());
+			totalDamage = ram.baseDamage * ((double) attack/10);
+			ram.doSomething();
 		}
 		return totalDamage;
 	}

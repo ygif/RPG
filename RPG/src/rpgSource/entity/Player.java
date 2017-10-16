@@ -2,8 +2,9 @@ package rpgSource.entity;
 
 import rpgSource.BattleSim;
 import rpgSource.Items;
-import rpgSource.Move;
-import rpgSource.normAtk;
+import rpgSource.moves.Move;
+import rpgSource.moves.PreConNumMove;
+import rpgSource.moves.NormAtk;
 
 /**
  * This class controls everything that the user wants to do.
@@ -18,8 +19,11 @@ public class Player extends Entities implements PlayerActions{
 		super(health, attack, defense, speed);
 		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion");
 		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.");
-		atk = new normAtk(10, "regular attack", "The player attacks the enemy.\n", this);
-		//
+		atk = new NormAtk(10, "regular attack", "The player attacks the enemy.\n", this);
+		swd = new NormAtk(14, "sword", "The player slashes at the enemy with a sword.\n", this);
+		beam = new NormAtk(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.\n", this);
+		spAtk = new PreConNumMove(30, "super move", "The player uses the special move.\n", 
+				"The player is not completely charged up yet.\n", this, (a) -> a.doubleValue() < charge);
 	}
 	
 	Items[] items = new Items[2];
@@ -30,6 +34,9 @@ public class Player extends Entities implements PlayerActions{
 	public int charge = 0;
 	
 	Move atk;
+	Move swd;
+	Move beam;
+	Move spAtk;
 	
 	/**
 	 * This method uses the user's input to determine which move to use and calculate damage that the user's attack would do.
@@ -40,26 +47,19 @@ public class Player extends Entities implements PlayerActions{
 		totalDamage = 0;
 		switch (moveSelector) {
 		case 1:
-			Entities.ui.appendToConsole(atk.des);
+			Entities.ui.appendToConsole(atk.getDes());
 			totalDamage = atk.baseDamage * ((double) attack/10);
 			atk.doSomething();
-			/*if (charge < 100) {
-				charge += 20;
-			}*/
 			return totalDamage;
 		case 2:
-			Entities.ui.appendToConsole("The player slashes at the enemy with a sword.\n");
-			totalDamage = 14 * ((double) attack/10);
-			if (charge < 100) {
-				charge += 20;
-			}
+			Entities.ui.appendToConsole(swd.getDes());
+			totalDamage = swd.baseDamage * ((double) attack/10);
+			swd.doSomething();
 			return totalDamage;
 		case 3:
-			Entities.ui.appendToConsole("The player emits a beam of concentrated magic at the enemy.\n");
-			totalDamage =  18 * ((double) attack/10);	
-			if (charge < 100) {
-				charge += 20;
-			}
+			Entities.ui.appendToConsole("");
+			totalDamage =  beam.baseDamage * ((double) attack/10);	
+			beam.doSomething();
 			return totalDamage;
 		default:
 			Entities.ui.appendToConsole("Invalid input.\n\n");
@@ -77,12 +77,12 @@ public class Player extends Entities implements PlayerActions{
 	public double useSpecialAttack() {
 		totalDamage = 0;
 		if (charge >= 100) {
-			Entities.ui.appendToConsole("The player uses the special move.\n");
-			totalDamage = 30 * (attack/10);
-			charge = 0;
+			Entities.ui.appendToConsole(spAtk.getDes());
+			totalDamage = spAtk.baseDamage * (attack/10);
+			spAtk.doSomething();
 			return totalDamage;
 		} else if(charge < 100) {
-			Entities.ui.appendToConsole("The player is not completely charged up yet.\n");
+			Entities.ui.appendToConsole(spAtk.getDes());
 			BattleSim.battle();
 		}
 		return totalDamage;

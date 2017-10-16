@@ -113,5 +113,9 @@ public class Entities {
 	public void setMaxHealth(double maxHealth) {
 		this.maxHealth = maxHealth;
 	}
+	
+	public DecimalFormat getNumFormatter() {
+		return numberPrinter;
+	}
 }
 

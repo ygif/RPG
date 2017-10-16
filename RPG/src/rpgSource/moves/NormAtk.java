@@ -1,11 +1,11 @@
-package rpgSource;
+package rpgSource.moves;
 
 import rpgSource.entity.Entities;
 import rpgSource.entity.Player;
 
-public class normAtk extends Move{
+public class NormAtk extends Move{
 
-	public normAtk(int bd, String n, String d, Entities l) {
+	public NormAtk(int bd, String n, String d, Entities l) {
 		super(bd,n ,d, l);
 	}
 

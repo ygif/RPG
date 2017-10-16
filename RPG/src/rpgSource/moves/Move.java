@@ -1,4 +1,4 @@
-package rpgSource;
+package rpgSource.moves;
 
 import rpgSource.entity.Entities;
 
@@ -6,7 +6,7 @@ public abstract class Move {
 
 	public int baseDamage;
 	public String name;
-	public String des;
+	private String des;
 	public Entities user;
 	
 	public Move(int bd, String n, String d) {
@@ -21,4 +21,8 @@ public abstract class Move {
 	}
 	
 	public abstract void doSomething();
+	
+	public String getDes() {
+		return des;
+	}
 }

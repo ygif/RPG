@@ -1,16 +1,26 @@
 package rpgSource.entity;
 
 import rpgSource.BattleSim;
+import rpgSource.moves.Move;
+import rpgSource.moves.NormAtk;
 
 public class Dragon extends Enemy{
+	
+	private Move atk;
+	private Move fireball;
+	private Move flamethrower;
 	
 	@Override
 	public String toString() {
 		return "Dragon";
 	}
+	
 	public Dragon(int level, int health, int attack, int defense, int speed, String name) {
 		super(level, health, attack, defense, speed);
 		this.name = name;
+		atk = new NormAtk(14, "normal attack", "The " + name + " attacks the player.\n", this);
+		fireball = new NormAtk(19, "fireball", "The " + name + " spits out a ball of fire at the player.\n", this);
+		flamethrower = new NormAtk(25, "flamethrower", "The " + name + " breathes out an enormous amount of flames at the player\n", this);
 	}
 	
 	public boolean flying = false;
@@ -18,20 +28,19 @@ public class Dragon extends Enemy{
 	
 	@Override
 	public double useAMoveRandom(int s) {
-		int temp = s;
-		if(temp >= 0 && temp < 45){
+		if(s >= 0 && s < 45){
 			//Attack 
-			Entities.ui.appendToConsole("The " + name + " attacks the player.\n");
-			totalDamage = 14 * ((double) attack/10);
+			Entities.ui.appendToConsole(atk.getDes());
+			totalDamage = atk.baseDamage * ((double) attack/10);
 			return totalDamage;
-		}else if(temp >= 45 && temp < 90){
+		}else if(s >= 45 && s < 90){
 			//fireball
-			Entities.ui.appendToConsole("The " + name + " spits out a ball of fire at the player.\n");
-			totalDamage = 19 * ((double) attack/10);
-		}else if (temp >= 90 && temp < 100) {
+			Entities.ui.appendToConsole(fireball.getDes());
+			totalDamage = fireball.baseDamage * ((double) attack/10);
+		}else if (s >= 90 && s < 100) {
 			//flamethrower
-			Entities.ui.appendToConsole("The " + name + " breathes out an enormous amount of flames at the player\n");
-			totalDamage = 25 * ((double) attack/10);
+			Entities.ui.appendToConsole(flamethrower.getDes());
+			totalDamage = flamethrower.baseDamage * ((double) attack/10);
 		}
 		return totalDamage;
 	}

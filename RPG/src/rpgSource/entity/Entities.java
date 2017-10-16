@@ -74,6 +74,10 @@ public class Entities {
 		}
 	}
 	
+	void message(String s) {
+		ui.appendToConsole(s);
+	}
+	
 	/**
 	 * This method returns the entity's name.
 	 * @return The entity's name.

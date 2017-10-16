@@ -47,24 +47,24 @@ public class Player extends Entities implements PlayerActions{
 		totalDamage = 0;
 		switch (moveSelector) {
 		case 1:
-			Entities.ui.appendToConsole(atk.getDes());
+			message(atk.getDes());
 			totalDamage = atk.baseDamage * ((double) attack/10);
 			atk.doSomething();
 			return totalDamage;
 		case 2:
-			Entities.ui.appendToConsole(swd.getDes());
+			message(swd.getDes());
 			totalDamage = swd.baseDamage * ((double) attack/10);
 			swd.doSomething();
 			return totalDamage;
 		case 3:
-			Entities.ui.appendToConsole("");
+			message("");
 			totalDamage =  beam.baseDamage * ((double) attack/10);	
 			beam.doSomething();
 			return totalDamage;
 		default:
-			Entities.ui.appendToConsole("Invalid input.\n\n");
-			Entities.ui.appendToConsole("Choose an action:\n");
-			Entities.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			message("Invalid input.\n\n");
+			message("Choose an action:\n");
+			message("moves(1), flee(2), use an item(3), or super attack(4).\n");
 			BattleSim.selectAction();
 			return 0;
 		}
@@ -77,12 +77,12 @@ public class Player extends Entities implements PlayerActions{
 	public double useSpecialAttack() {
 		totalDamage = 0;
 		if (charge >= 100) {
-			Entities.ui.appendToConsole(spAtk.getDes());
+			message(spAtk.getDes());
 			totalDamage = spAtk.baseDamage * (attack/10);
 			spAtk.doSomething();
 			return totalDamage;
 		} else if(charge < 100) {
-			Entities.ui.appendToConsole(spAtk.getDes());
+			message(spAtk.getDes());
 			BattleSim.battle();
 		}
 		return totalDamage;
@@ -114,16 +114,16 @@ public class Player extends Entities implements PlayerActions{
 			currentHealth += temp;
 			if (currentHealth > getMaxHealth()) {
 				currentHealth = getMaxHealth();	
-				Entities.ui.appendToConsole("The player is at full health.\n");
+				message("The player is at full health.\n");
 			}
-			Entities.ui.appendToConsole("The player has " + numberPrinter.format(currentHealth) + " health left.\n");
+			message("The player has " + numberPrinter.format(currentHealth) + " health left.\n");
 			return 0;
 		case 2:
 			return items[1].useItem();//Player uses damage potion.
 		default:
-			Entities.ui.appendToConsole("Invalid input.\n\n");
-			Entities.ui.appendToConsole("Choose an action:\n");
-			Entities.ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			message("Invalid input.\n\n");
+			message("Choose an action:\n");
+			message("moves(1), flee(2), use an item(3), or super attack(4).\n");
 			BattleSim.selectAction();
 		}
 		return 0;
@@ -142,9 +142,9 @@ public class Player extends Entities implements PlayerActions{
 			attack += 4;
 			defense += 2;
 			setSpeed(getSpeed() + 2);
-			Entities.ui.appendToConsole("\n");
-			//Entities.ui.appendToConsole("The player has " + experiencePoints + " exp.\n");
-			Entities.ui.appendToConsole("The player is now level " + level + ".\n");
+			message("\n");
+			//message("The player has " + experiencePoints + " exp.\n");
+			message("The player is now level " + level + ".\n");
 		}
 	}
 

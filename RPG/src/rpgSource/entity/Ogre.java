@@ -21,16 +21,16 @@ public class Ogre extends Enemy{
 	public double useAMoveRandom(int s){
 		if(s >= 0 && s < 45){
 			//Attack move
-			Entities.ui.appendToConsole(atk.getDes());
+			message(atk.getDes());
 			totalDamage = atk.baseDamage * ((double) attack/10);
 			return totalDamage;
 		}else if(s >= 45 && s < 90){
 			//Club hit
-			Entities.ui.appendToConsole(club.getDes());
+			message(club.getDes());
 			totalDamage = club.baseDamage * ((double) attack/10);
 		}else if (s >= 90 && s < 100) {
 			//charge attack
-			Entities.ui.appendToConsole(ram.getDes());
+			message(ram.getDes());
 			totalDamage = ram.baseDamage * ((double) attack/10);
 			ram.doSomething();
 		}

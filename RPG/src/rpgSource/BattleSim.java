@@ -11,7 +11,7 @@ import rpgSource.entity.Ogre;
 import rpgSource.entity.Player;
 
 public class BattleSim {
-	static Player player1 = new Player(45, 15, 10, 12);
+	static Player player1 = new Player(45, 15, 10, 12, 10);
 	static Enemy[] enemy1 = new Enemy[3];
 	static double damage = 0;
 	public static int turn = 1;

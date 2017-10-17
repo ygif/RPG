@@ -20,6 +20,8 @@ public class Entities {
 	double totalDamage;
 	double level;
 	private int speed;
+	private int maxMp;
+	private int mp;
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
 	static RPGGUI ui = RPGGUI.getInstance();
 	
@@ -29,6 +31,16 @@ public class Entities {
 		this.attack = attack;
 		this.defense = defense;
 		this.setSpeed(speed);
+		maxMp = mp = 0;
+	}
+	
+	Entities(int health, int attack, int defense, int speed, int mp) {
+		setMaxHealth(health);
+		currentHealth = health;
+		this.attack = attack;
+		this.defense = defense;
+		this.setSpeed(speed);
+		maxMp = this.mp = mp;
 	}
 	
 	Entities(){
@@ -56,6 +68,26 @@ public class Entities {
 	public double reduceHealthRecoil(double inputRecoil){
 		currentHealth -= inputRecoil;
 		return Math.floor(currentHealth);
+	}
+	
+	public int reduceMP(int mpUsed) {
+		if(mp < mpUsed) {
+			if(mp < 0) {
+				mp = 0;
+			}
+		} else {
+			ui.appendToConsole(name + " does not have enough mp.");
+		}
+		return mp;
+	}
+	
+	public int increaseMP(int incMp) {
+		if(maxMp - mp < incMp) {
+			mp = maxMp;
+			return mp;
+		} else {
+			return reduceMP(-incMp);
+		}
 	}
 	
 	/**

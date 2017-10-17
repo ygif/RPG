@@ -15,8 +15,8 @@ import rpgSource.moves.PlayerNormAtk;
 
 public class Player extends Entities implements PlayerActions{
 
-	public Player(int health, int attack, int defense, int speed) {
-		super(health, attack, defense, speed);
+	public Player(int health, int attack, int defense, int speed, int mp) {
+		super(health, attack, defense, speed, mp);
 		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion");
 		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.");
 		atk = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.\n", this);

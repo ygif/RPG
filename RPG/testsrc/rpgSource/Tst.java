@@ -23,7 +23,7 @@ public class Tst {
 	@Before
 	public void init(){
 		cHealth = 0;
-		p = new Player(10, 5, 5, 15);
+		p = new Player(10, 5, 5, 15, 10);
 		o = new Ogre(1, 15, 2, 6, 2, "ogre");
 		d = new Dragon(3, 25, 7, 3, 10, "dragon");
 	}

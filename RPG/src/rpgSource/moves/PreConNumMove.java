@@ -1,9 +1,9 @@
 package rpgSource.moves;
 
+import java.util.function.DoubleSupplier;
 import java.util.function.Predicate;
 
 import rpgSource.entity.Entities;
-import rpgSource.entity.Player;
 
 public class PreConNumMove extends Move {
 	
@@ -30,10 +30,15 @@ public class PreConNumMove extends Move {
 		passed = tester.test(d);
 		return passed;
 	}
+	
+	public boolean precondition(DoubleSupplier ds) {
+		passed = tester.test(ds.getAsDouble());
+		return passed;
+	}
 
 	@Override
 	public void doSomething() {
-		((Player) user).charge = 0;
+		
 	}
 	
 	@Override

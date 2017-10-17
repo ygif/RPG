@@ -25,4 +25,8 @@ public abstract class Move {
 	public String getDes() {
 		return des;
 	}
+	
+	public int getBaseDamage() {
+		return baseDamage;
+	}
 }

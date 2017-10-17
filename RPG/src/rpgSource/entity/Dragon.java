@@ -18,9 +18,9 @@ public class Dragon extends Enemy{
 	public Dragon(int level, int health, int attack, int defense, int speed, String name) {
 		super(level, health, attack, defense, speed);
 		this.name = name;
-		atk = new NormAtk(14, "normal attack", "The " + name + " attacks the player.\n", this);
-		fireball = new NormAtk(19, "fireball", "The " + name + " spits out a ball of fire at the player.\n", this);
-		flamethrower = new NormAtk(25, "flamethrower", "The " + name + " breathes out an enormous amount of flames at the player\n", this);
+		atk = new NormAtk(14, "normal attack", "The " + name + " attacks the player.", this);
+		fireball = new NormAtk(19, "fireball", "The " + name + " spits out a ball of fire at the player.", this);
+		flamethrower = new NormAtk(25, "flamethrower", "The " + name + " breathes out an enormous amount of flames at the player", this);
 	}
 	
 	public boolean flying = false;
@@ -47,24 +47,24 @@ public class Dragon extends Enemy{
 	public void fly() {
 		flying = true;
 		endFlight = BattleSim.turn + 2;
-		message("The dragon flies up into the sky.\n");
+		message("The dragon flies up into the sky.");
 	}
 	public void land(){
 		if(flying == true && BattleSim.turn == endFlight){
 			flying = false;
-			message("The dragon lands on the ground.\n\n");
+			message("The dragon lands on the ground.\n");
 		}
 	}
 	@Override
 	public double reduceHealth(double damage) {
 		if (flying == true) {
 			damage = 0;
-			message("The player can't damage a dragon while its in flight.\n");
+			message("The player can't damage a dragon while its in flight.");
 			return currentHealth;
 		} else {
 			double tempDamage = damage/*dodgeAttack(damage)*/;
 			currentHealth -= Math.floor(((Math.log(defense) * tempDamage) / 4));
-			message(numberPrinter.format(Math.floor(((Math.log(defense) * tempDamage) / 4))) + " Damage\n");
+			message(numberPrinter.format(Math.floor(((Math.log(defense) * tempDamage) / 4))) + " Damage");
 			currentHealth = Math.floor(currentHealth);
 			return currentHealth;
 		}
@@ -79,7 +79,7 @@ public class Dragon extends Enemy{
 				fly();
 				return 0;
 			}else{
-				message("The dragon doesn't do anything.\n");
+				message("The dragon doesn't do anything.");
 				return 0;
 			}
 		}

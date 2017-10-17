@@ -4,8 +4,6 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
-import javax.swing.text.DefaultCaret;
-
 import java.awt.event.*;
 import java.text.DecimalFormat;
 
@@ -27,11 +25,14 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
 	JLabel playerHealth;
 	JLabel enemyHealth;
+	JLabel playerMp;
 	JButton one;
 	JButton two;
 	JButton three;
 	JButton four;
 	JTextArea console;
+	String tpMp;
+	String tpmMp;
 	String tpHealth;
 	String tpmHealth;
 	String teHealth;
@@ -49,29 +50,33 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	/**
 	 * Create the frame.
 	 */
-	public RPGGUI(double mpH, double meH, String name) {
+	public RPGGUI(double mpH, double mpM,double meH, String name) {
 		super("RPG Battle");
 		setAlwaysOnTop(true);
 		tpHealth = numberPrinter.format(mpH);
 		tpmHealth = tpHealth;
 		teHealth = numberPrinter.format(meH);
 		temHealth = teHealth;
+		tpMp = numberPrinter.format(mpM);
+		tpmMp = tpMp;
 		enemyName = name;
 		layout = new FlowLayout();
 		setLayout(layout);
 		playerHealth = new JLabel("Player: " + tpHealth + "/" + tpmHealth);
 		add(playerHealth);
+		playerMp = new JLabel("MP: " + tpMp + "/" + tpmMp);
+		add(playerMp);
 		enemyHealth = new JLabel(enemyName + ": " + teHealth + "/" + temHealth);
 		add(enemyHealth);
 		console = new JTextArea(15, 30);
 		console.setLineWrap(true);
 		console.setEditable(false);
 		console.setAutoscrolls(true);
-		//((DefaultCaret) console.getCaret()).setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 		sPane = new JScrollPane(console, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		sPane.setBounds(250, 300, 200, 200);
 		add(sPane);
 	}
+	
 	public RPGGUI(){
 		
 	}
@@ -92,6 +97,11 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	 public void updatePlayerHealth(String pHealth){
 		tpHealth = pHealth;
 		playerHealth.setText("Player: " + tpHealth + "/" + tpmHealth);
+	 }
+	 
+	 public void updatePlayerMp(String pMp) {
+		 tpMp = pMp;
+		 playerMp.setText("MP: " + tpMp + "/" + tpmMp);
 	 }
 	 
 	 public void startGUI() {
@@ -120,6 +130,8 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		setAlwaysOnTop(true);
 		tpHealth = BattleSim.getMaxPlayerHealth();
 		tpmHealth = tpHealth;
+		tpMp = BattleSim.getMaxPlayerMP();
+		tpmMp = tpMp;
 		teHealth = BattleSim.getMaxEnemyHealth();
 		temHealth = teHealth;
 		enemyName = BattleSim.getEnemyName();
@@ -129,6 +141,8 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		setLayout(layout);
 		playerHealth = new JLabel("Player: " + tpHealth + "/" + tpmHealth);
 		add(playerHealth);
+		playerMp = new JLabel("MP: " + tpMp + "/" + tpmMp);
+		add(playerMp);
 		enemyHealth = new JLabel(enemyName + ": " + teHealth + "/" + temHealth);
 		add(enemyHealth);
 		console = new JTextArea(15, 30);

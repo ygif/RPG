@@ -2,6 +2,7 @@ package rpgSource.entity;
 
 import rpgSource.BattleSim;
 import rpgSource.Items;
+import rpgSource.moves.MagicMove;
 import rpgSource.moves.Move;
 import rpgSource.moves.PreConNumMove;
 import rpgSource.moves.PlayerNormAtk;
@@ -19,11 +20,14 @@ public class Player extends Entities implements PlayerActions{
 		super(health, attack, defense, speed, mp);
 		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion");
 		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.");
-		atk = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.\n", this);
-		swd = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.\n", this);
-		beam = new PlayerNormAtk(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.\n", this);
-		spAtk = new PreConNumMove(30, "super move", "The player uses the special move.\n", 
-				"The player is not completely charged up yet.\n", this, (a) -> a.doubleValue() < charge);
+	}
+	
+	public void createMoves() {
+		atk = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
+		swd = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", this);
+		beam = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", this, 5);
+		spAtk = new PreConNumMove(30, "super move", "The player uses the special move.", 
+				"The player is not completely charged up yet.\n", this);
 	}
 	
 	Items[] items = new Items[2];
@@ -35,7 +39,7 @@ public class Player extends Entities implements PlayerActions{
 	
 	Move atk;
 	Move swd;
-	Move beam;
+	MagicMove beam;
 	Move spAtk;
 	
 	/**
@@ -57,14 +61,17 @@ public class Player extends Entities implements PlayerActions{
 			swd.doSomething();
 			return totalDamage;
 		case 3:
-			message("");
-			totalDamage =  beam.baseDamage * ((double) attack/10);	
-			beam.doSomething();
+			if(beam.precondition(getMp())) {
+				totalDamage =  beam.baseDamage * ((double) attack/10);
+				beam.doSomething();
+			}
+			message(beam.getDes());
+			Entities.ui.updatePlayerMp(Entities.numberPrinter.format((double) getMp()));
 			return totalDamage;
 		default:
-			message("Invalid input.\n\n");
-			message("Choose an action:\n");
-			message("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			message("Invalid input.\n");
+			message("Choose an action:");
+			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			BattleSim.selectAction();
 			return 0;
 		}
@@ -114,16 +121,16 @@ public class Player extends Entities implements PlayerActions{
 			currentHealth += temp;
 			if (currentHealth > getMaxHealth()) {
 				currentHealth = getMaxHealth();	
-				message("The player is at full health.\n");
+				message("The player is at full health.");
 			}
-			message("The player has " + numberPrinter.format(currentHealth) + " health left.\n");
+			message("The player has " + numberPrinter.format(currentHealth) + " health left.");
 			return 0;
 		case 2:
 			return items[1].useItem();//Player uses damage potion.
 		default:
-			message("Invalid input.\n\n");
-			message("Choose an action:\n");
-			message("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			message("Invalid input.\n");
+			message("Choose an action:");
+			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			BattleSim.selectAction();
 		}
 		return 0;
@@ -142,9 +149,9 @@ public class Player extends Entities implements PlayerActions{
 			attack += 4;
 			defense += 2;
 			setSpeed(getSpeed() + 2);
-			message("\n");
-			//message("The player has " + experiencePoints + " exp.\n");
-			message("The player is now level " + level + ".\n");
+			message("");
+			//message("The player has " + experiencePoints + " exp.");
+			message("The player is now level " + level + ".");
 		}
 	}
 

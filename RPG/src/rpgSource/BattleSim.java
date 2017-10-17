@@ -28,6 +28,7 @@ public class BattleSim {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+		player1.createMoves();
 		gui.appendToConsole("Start battle!\n");
 		String winner = battle();
 		gui.appendToConsole("%n" + winner + " wins.\n");
@@ -38,6 +39,7 @@ public class BattleSim {
 	public static String battle() {
 		while(player1.getCurrentHealth() > 0 || enemy1[x].getCurrentHealth() > 0 ){
 			if(playersTurn == true){
+				gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
 				gui.appendToConsole("It's the players turn.\n");
 				gui.appendToConsole("Choose an action:\n");
 				gui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
@@ -46,6 +48,7 @@ public class BattleSim {
 					return "Nobody";
 				}
 				playersTurn = false;
+				gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
 			}
 			if(enemy1[x].getCurrentHealth() <= 0){
 				player1.setExperiencePoints(player1.getExperiencePoints() + 6);
@@ -180,5 +183,9 @@ public class BattleSim {
 		gui = RPGGUI.getInstance();
 		gui.startGUI();
 		setWhoGoesFirst();
+	}
+
+	public static String getMaxPlayerMP() {
+		return numberPrinter.format(player1.getMp());
 	}
 }

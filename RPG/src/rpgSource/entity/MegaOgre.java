@@ -13,10 +13,10 @@ public class MegaOgre extends Ogre {
 
 	public MegaOgre(int level, int health, int attack, int defense, int speed, String name) {
 		super(level, health, attack, defense, speed, name);
-		atk = new NormAtk(15, "normal attack", "The " + name + " attacks the player.\n", this);
-		club = new NormAtk(18, "club hit", "The " + name + " hits the player with a club.\n", this);
-		smash = new NormAtk(21, "ogre smash", "The " + name + " smashes the player.\n", this);
-		ram = new RCAttack(25, "ram", "The " + name + " rams itself into the player\n", this);
+		atk = new NormAtk(15, "normal attack", "The " + name + " attacks the player.", this);
+		club = new NormAtk(18, "club hit", "The " + name + " hits the player with a club.", this);
+		smash = new NormAtk(21, "ogre smash", "The " + name + " smashes the player.", this);
+		ram = new RCAttack(25, "ram", "The " + name + " rams itself into the player", this);
 	}
 	
 	@Override

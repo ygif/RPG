@@ -31,7 +31,7 @@ public class Entities {
 		this.attack = attack;
 		this.defense = defense;
 		this.setSpeed(speed);
-		maxMp = mp = 0;
+		maxMp = setMp(0);
 	}
 	
 	Entities(int health, int attack, int defense, int speed, int mp) {
@@ -40,7 +40,7 @@ public class Entities {
 		this.attack = attack;
 		this.defense = defense;
 		this.setSpeed(speed);
-		maxMp = this.mp = mp;
+		maxMp = this.setMp(mp);
 	}
 	
 	Entities(){
@@ -71,20 +71,17 @@ public class Entities {
 	}
 	
 	public int reduceMP(int mpUsed) {
-		if(mp < mpUsed) {
-			if(mp < 0) {
-				mp = 0;
-			}
-		} else {
-			ui.appendToConsole(name + " does not have enough mp.");
+		setMp(getMp() - mpUsed);
+		if(getMp() < 0) {
+			setMp(0);
 		}
-		return mp;
+		return getMp();
 	}
 	
 	public int increaseMP(int incMp) {
-		if(maxMp - mp < incMp) {
-			mp = maxMp;
-			return mp;
+		if(maxMp - getMp() < incMp) {
+			setMp(maxMp);
+			return getMp();
 		} else {
 			return reduceMP(-incMp);
 		}
@@ -107,7 +104,7 @@ public class Entities {
 	}
 	
 	void message(String s) {
-		ui.appendToConsole(s);
+		ui.appendToConsole(s + "\n");
 	}
 	
 	/**
@@ -148,6 +145,19 @@ public class Entities {
 	
 	public DecimalFormat getNumFormatter() {
 		return numberPrinter;
+	}
+
+	public int getMp() {
+		return mp;
+	}
+
+	public int setMp(int mp) {
+		this.mp = mp;
+		return mp;
+	}
+	
+	public int getMaxMp() {
+		return maxMp;
 	}
 }
 

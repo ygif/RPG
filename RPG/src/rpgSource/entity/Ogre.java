@@ -13,9 +13,9 @@ public class Ogre extends Enemy{
 	public Ogre(int level, int health, int attack, int defense, int speed, String name) {
 		super(level, health, attack, defense, speed);
 		this.name = name;
-		atk = new NormAtk(12, "normal attack", "The " + name + " attacks the player.\n", this);
-		club = new NormAtk(16, "club hit", "The " + name + " hits the player with a club.\n", this);
-		ram = new RCAttack(22, "ram", "The " + name + " rams itself into the player\n", this);
+		atk = new NormAtk(12, "normal attack", "The " + name + " attacks the player.", this);
+		club = new NormAtk(16, "club hit", "The " + name + " hits the player with a club.", this);
+		ram = new RCAttack(22, "ram", "The " + name + " rams itself into the player", this);
 	}	
 	@Override
 	public double useAMoveRandom(int s){

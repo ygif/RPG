@@ -4,7 +4,7 @@ import rpgSource.BattleSim;
 import rpgSource.Items;
 import rpgSource.moves.Move;
 import rpgSource.moves.PreConNumMove;
-import rpgSource.moves.NormAtk;
+import rpgSource.moves.PlayerNormAtk;
 
 /**
  * This class controls everything that the user wants to do.
@@ -19,9 +19,9 @@ public class Player extends Entities implements PlayerActions{
 		super(health, attack, defense, speed);
 		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion");
 		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.");
-		atk = new NormAtk(10, "regular attack", "The player attacks the enemy.\n", this);
-		swd = new NormAtk(14, "sword", "The player slashes at the enemy with a sword.\n", this);
-		beam = new NormAtk(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.\n", this);
+		atk = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.\n", this);
+		swd = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.\n", this);
+		beam = new PlayerNormAtk(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.\n", this);
 		spAtk = new PreConNumMove(30, "super move", "The player uses the special move.\n", 
 				"The player is not completely charged up yet.\n", this, (a) -> a.doubleValue() < charge);
 	}

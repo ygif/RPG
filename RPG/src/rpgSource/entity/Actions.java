@@ -1,5 +1,7 @@
 package rpgSource.entity;
 
 interface Actions {
-	double useAMove(int moveSelector);
+	void useAMove(int moveSelector);
+	int selectAction(int selector);
+	Entities getTarget();
 }

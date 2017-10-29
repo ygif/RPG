@@ -10,8 +10,8 @@ public class Ogre extends Enemy{
 	Move club;
 	Move ram;
 	
-	public Ogre(int level, int health, int attack, int defense, int speed, String name) {
-		super(level, health, attack, defense, speed);
+	public Ogre(String name, int level, int health, int attack, int defense, int speed) {
+		super(name, level, health, attack, defense, speed);
 		this.name = name;
 		atk = new NormAtk(12, "normal attack", "The " + name + " attacks the player.", this);
 		club = new NormAtk(16, "club hit", "The " + name + " hits the player with a club.", this);

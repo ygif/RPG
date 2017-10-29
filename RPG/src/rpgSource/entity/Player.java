@@ -1,7 +1,10 @@
 package rpgSource.entity;
 
 import rpgSource.BattleSim;
+import rpgSource.ItemPacket;
 import rpgSource.Items;
+import rpgSource.MovePacket;
+import rpgSource.RPGGUI;
 import rpgSource.moves.MagicMove;
 import rpgSource.moves.Move;
 import rpgSource.moves.PreConNumMove;
@@ -17,7 +20,7 @@ import rpgSource.moves.PlayerNormAtk;
 public class Player extends Entities implements PlayerActions{
 
 	public Player(int health, int attack, int defense, int speed, int mp) {
-		super(health, attack, defense, speed, mp);
+		super("player", health, attack, defense, speed, mp);
 		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion");
 		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.");
 	}
@@ -47,33 +50,29 @@ public class Player extends Entities implements PlayerActions{
 	 * @param moveSelector The input selected by the user used to chose a specific move.
 	 * @return The damage the user would deal if the attack's receiver didn't have defense.
 	 */
-	public double useAMove(int moveSelector){
-		totalDamage = 0;
+	public void useAMove(int moveSelector){
 		switch (moveSelector) {
 		case 1:
 			message(atk.getDes());
-			totalDamage = atk.baseDamage * ((double) attack/10);
-			atk.doSomething();
-			return totalDamage;
+			p = new MovePacket(this, getTarget(), atk);
+			return;
 		case 2:
 			message(swd.getDes());
-			totalDamage = swd.baseDamage * ((double) attack/10);
-			swd.doSomething();
-			return totalDamage;
+			p = new MovePacket(this, getTarget(), swd);
+			return;
 		case 3:
 			if(beam.precondition(getMp())) {
-				totalDamage =  beam.baseDamage * ((double) attack/10);
-				beam.doSomething();
+				p = new MovePacket(this, getTarget(), beam);
 			}
 			message(beam.getDes());
 			Entities.ui.updatePlayerMp(Entities.numberPrinter.format((double) getMp()));
-			return totalDamage;
+			return;
 		default:
 			message("Invalid input.\n");
 			message("Choose an action:");
 			message("moves(1), flee(2), use an item(3), or super attack(4).");
-			BattleSim.selectAction();
-			return 0;
+			selectAction(BattleSim.getSelector());
+			return;
 		}
 	}
 	
@@ -81,18 +80,14 @@ public class Player extends Entities implements PlayerActions{
 	 * This method activates a special move that takes time some time before it can be used.
 	 * @return The damage the user would deal if the attack's receiver didn't have defense.
 	 */
-	public double useSpecialAttack() {
-		totalDamage = 0;
-		if (charge >= 100) {
+	public void useSpecialAttack() {
+		if (((PreConNumMove) spAtk).precondition(charge)) {
 			message(spAtk.getDes());
-			totalDamage = spAtk.baseDamage * (attack/10);
-			spAtk.doSomething();
-			return totalDamage;
+			p = new MovePacket(this, getTarget(), spAtk);
 		} else if(charge < 100) {
 			message(spAtk.getDes());
 			BattleSim.battle();
 		}
-		return totalDamage;
 	}
 	
 	/**
@@ -114,26 +109,21 @@ public class Player extends Entities implements PlayerActions{
 	 * This method is used when the user wants to use an item.
 	 * @param inputSelector The item the user wants to use.
 	 */
-	public double useAnItem(int inputSelector){
+	public void useAnItem(int inputSelector){
 		switch(inputSelector) {
-		case 1:
-			double temp = items[0].useItem(); //Player uses one health potion.
-			currentHealth += temp;
-			if (currentHealth > getMaxHealth()) {
-				currentHealth = getMaxHealth();	
-				message("The player is at full health.");
-			}
-			message("The player has " + numberPrinter.format(currentHealth) + " health left.");
-			return 0;
+		case 1://Player uses one health potion.
+			p = new ItemPacket(this, getTarget(), items[0]);
+			return;
 		case 2:
-			return items[1].useItem();//Player uses damage potion.
+			p = new ItemPacket(this, getTarget(), items[1]);
+			return;//Player uses damage potion.
 		default:
 			message("Invalid input.\n");
 			message("Choose an action:");
 			message("moves(1), flee(2), use an item(3), or super attack(4).");
-			BattleSim.selectAction();
+			selectAction(BattleSim.getSelector());
 		}
-		return 0;
+		return;
 	}
 	
 	/**
@@ -161,5 +151,46 @@ public class Player extends Entities implements PlayerActions{
 
 	public void setExperiencePoints(int experiencePoints) {
 		this.experiencePoints = experiencePoints;
+	}
+
+	@Override
+	public int selectAction(int selector) {
+		RPGGUI.resetSelector();
+		switch (selector) {
+		case 1:
+			ui.appendToConsole("Chose a move.\n");
+			ui.appendToConsole("Attack(1), sword slash(2), or magic beam(3).\n");
+			useAMove(BattleSim.getSelector());
+			return 0;
+		case 2:
+			ui.appendToConsole("The player is trying to flee.\n");
+			if (flee() == true) {
+				ui.appendToConsole("The player successfully flees the battle.\n");
+				return -1;
+			} else {
+				ui.appendToConsole("The player failed to flee.\n");
+				return 0;
+			}
+		case 3:
+			ui.appendToConsole("Choose an item:\n");
+			ui.appendToConsole("Health potion(1) or damage potion(2).\n");
+			RPGGUI.resetSelector();
+			useAnItem(BattleSim.getSelector());
+			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
+			return 0;
+		case 4:
+			useSpecialAttack();
+			return 0;
+		default:
+			ui.appendToConsole("Invalid input.\n");
+			ui.appendToConsole("You can only type in:\n");
+			ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			return selectAction(BattleSim.getSelector());
+		}
+	}
+
+	@Override
+	public Entities getTarget() {
+		return BattleSim.enemy1[BattleSim.x];
 	}
 }

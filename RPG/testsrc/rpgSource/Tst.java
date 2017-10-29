@@ -24,8 +24,8 @@ public class Tst {
 	public void init(){
 		cHealth = 0;
 		p = new Player(10, 5, 5, 15, 10);
-		o = new Ogre(1, 15, 2, 6, 2, "ogre");
-		d = new Dragon(3, 25, 7, 3, 10, "dragon");
+		o = new Ogre("ogre", 1, 15, 2, 6, 2);
+		d = new Dragon("dragon", 3, 25, 7, 3, 10);
 	}
 	
 	@Test
@@ -38,10 +38,6 @@ public class Tst {
 	
 	@Test
 	public void testAttacking() {
-		assertEquals(10 * (p.getAttack()/10), p.useAMove(1), 0.1);
-		assertEquals(14 * (p.getAttack()/10), p.useAMove(2), 0.1);
-		assertEquals(18 * (p.getAttack()/10), p.useAMove(3), 0.1);
-		
 		assertEquals(12 * (o.getAttack()/10), o.useAMoveRandom(30), 0.1);
 		assertEquals(16 * (o.getAttack()/10), o.useAMoveRandom(50), 0.1);
 		assertEquals(22 * (o.getAttack()/10), o.useAMoveRandom(95), 0.1);

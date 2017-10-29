@@ -15,8 +15,8 @@ public class Dragon extends Enemy{
 		return "Dragon";
 	}
 	
-	public Dragon(int level, int health, int attack, int defense, int speed, String name) {
-		super(level, health, attack, defense, speed);
+	public Dragon(String name, int level, int health, int attack, int defense, int speed) {
+		super(name, level, health, attack, defense, speed);
 		this.name = name;
 		atk = new NormAtk(14, "normal attack", "The " + name + " attacks the player.", this);
 		fireball = new NormAtk(19, "fireball", "The " + name + " spits out a ball of fire at the player.", this);

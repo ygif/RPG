@@ -168,7 +168,7 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	/**
 	 * Resets the selector.
 	 */
-	static void resetSelector(){
+	public static void resetSelector(){
 		selector = 0;
 	}
 	class Handler implements ActionListener{

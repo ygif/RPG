@@ -11,8 +11,8 @@ public class MegaOgre extends Ogre {
 	Move smash;
 	Move ram;
 
-	public MegaOgre(int level, int health, int attack, int defense, int speed, String name) {
-		super(level, health, attack, defense, speed, name);
+	public MegaOgre(String name, int level, int health, int attack, int defense, int speed) {
+		super(name, level, health, attack, defense, speed);
 		atk = new NormAtk(15, "normal attack", "The " + name + " attacks the player.", this);
 		club = new NormAtk(18, "club hit", "The " + name + " hits the player with a club.", this);
 		smash = new NormAtk(21, "ogre smash", "The " + name + " smashes the player.", this);

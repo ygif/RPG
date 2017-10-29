@@ -2,6 +2,7 @@ package rpgSource.entity;
 
 import java.text.DecimalFormat;
 
+import rpgSource.Packet;
 import rpgSource.RPGGUI;
 
 /**
@@ -22,10 +23,12 @@ public class Entities {
 	private int speed;
 	private int maxMp;
 	private int mp;
-	static DecimalFormat numberPrinter = new DecimalFormat("###");
-	static RPGGUI ui = RPGGUI.getInstance();
+	Packet p;
+	public static DecimalFormat numberPrinter = new DecimalFormat("###");
+	public static RPGGUI ui = RPGGUI.getInstance();
 	
-	Entities(int health, int attack, int defense, int speed) {
+	Entities(String name, int health, int attack, int defense, int speed) {
+		this.name = name;
 		setMaxHealth(health);
 		currentHealth = health;
 		this.attack = attack;
@@ -34,7 +37,8 @@ public class Entities {
 		maxMp = setMp(0);
 	}
 	
-	Entities(int health, int attack, int defense, int speed, int mp) {
+	Entities(String name, int health, int attack, int defense, int speed, int mp) {
+		this.name = name;
 		setMaxHealth(health);
 		currentHealth = health;
 		this.attack = attack;
@@ -103,7 +107,15 @@ public class Entities {
 		}
 	}
 	
-	void message(String s) {
+	public void restoreHeatlth(int h) {
+		currentHealth += h;
+		if (currentHealth > getMaxHealth()) {
+			currentHealth = getMaxHealth();	
+			message("The " + getName() + " is at full health.");
+		}
+	}
+	
+	public void message(String s) {
 		ui.appendToConsole(s + "\n");
 	}
 	

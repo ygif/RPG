@@ -9,8 +9,8 @@ package rpgSource.entity;
 
 public abstract class Enemy extends Entities{
 
-	Enemy(int level, int health, int attack, int defense, int speed) {
-		super(health, attack, defense, speed);
+	Enemy(String name, int level, int health, int attack, int defense, int speed) {
+		super(name, health, attack, defense, speed);
 		this.level = level;
 		setMaxHealth(getMaxHealth() + (this.level - 1) * 5);
 		currentHealth = getMaxHealth();

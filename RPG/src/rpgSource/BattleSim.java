@@ -12,11 +12,11 @@ import rpgSource.entity.Player;
 
 public class BattleSim {
 	static Player player1 = new Player(45, 15, 10, 12, 10);
-	static Enemy[] enemy1 = new Enemy[3];
+	public static Enemy[] enemy1 = new Enemy[3];
 	static double damage = 0;
 	public static int turn = 1;
 	static boolean playersTurn;
-	static int x;
+	public static int x;
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
 	static RPGGUI gui;
 	static Thread thread;
@@ -43,8 +43,8 @@ public class BattleSim {
 				gui.appendToConsole("It's the players turn.\n");
 				gui.appendToConsole("Choose an action:\n");
 				gui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
-				String temp = selectAction();
-				if(temp.equalsIgnoreCase("fled")){
+				int temp = (int) player1.selectAction(getSelector());
+				if(temp == -1){
 					return "Nobody";
 				}
 				playersTurn = false;
@@ -55,6 +55,7 @@ public class BattleSim {
 				player1.increaseLevel();
 				return "The player";
 			}
+			updateStats();
 			gui.appendToConsole("\n");
 			if(playersTurn == false) {
 				if (x == 1) {
@@ -83,62 +84,13 @@ public class BattleSim {
 		return "nobody";
 	}
 	
-	public static String selectAction() {
-		int action = getSelector();
-		RPGGUI.resetSelector();
-		switch (action) {
-		case 1:
-			gui.appendToConsole("Chose a move.\n");
-			gui.appendToConsole("Attack(1), sword slash(2), or magic beam(3).\n");
-			int move = getSelector();
-			RPGGUI.resetSelector();
-			damage = player1.useAMove(move);
-			if (damage > 0) {
-				enemy1[x].reduceHealth(damage);
-				gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
-				gui.appendToConsole("The " + enemy1[x].getName() + " has " + numberPrinter.format(enemy1[x].getCurrentHealth()) + " health.\n");
-			}
-			damage = 0;
-			return "nothing";
-		case 2:
-			gui.appendToConsole("The player is trying to flee.\n");
-			if (player1.flee() == true) {
-				gui.appendToConsole("The player successfully flees the battle.\n");
-				return "fled";
-			} else {
-				gui.appendToConsole("The player failed to flee.\n");
-				return "Failed to flee";
-			}
-		case 3:
-			gui.appendToConsole("Choose an item:\n");
-			gui.appendToConsole("Health potion(1) or damage potion(2).\n");
-			int selector = getSelector();
-			RPGGUI.resetSelector();
-			damage = player1.useAnItem(selector);
-			if (damage > 0) {
-				gui.appendToConsole(numberPrinter.format(damage) + " damage\n");
-				enemy1[x].reduceHealthRecoil(damage);
-				gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
-				gui.appendToConsole("The " + enemy1[x].getName() + " has " + numberPrinter.format(enemy1[x].getCurrentHealth()) + " health.\n");
-			}
-			gui.updatePlayerHealth(numberPrinter.format(player1.getCurrentHealth()));
-			return "Used an item.";
-		case 4:
-			damage = player1.useSpecialAttack();
-			enemy1[x].reduceHealth(damage);
-			gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
-			gui.appendToConsole("The enemy has " + numberPrinter.format(enemy1[x].getCurrentHealth()) + " health.\n");
-			damage = 0;
-			return "nothing";
-		default:
-			gui.appendToConsole("Invalid input.\n");
-			gui.appendToConsole("You can only type in:\n");
-			gui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
-			return selectAction();
-		}
+	static void updateStats() {
+		gui.updatePlayerHealth(numberPrinter.format(player1.getCurrentHealth()));
+		gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
+		gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
 	}
 	
-	static int getSelector(){
+	public static int getSelector(){
 		int temp = 0;
 		while(temp == 0){
 			try {
@@ -172,9 +124,9 @@ public class BattleSim {
 	}
 
 	static void init(){
-		enemy1[0] = new Ogre(2, 30, 8, 8, 10, "ogre");
-		enemy1[1] = new Dragon(2, 30, 7, 9, 10, "dragon");
-		enemy1[2] = new MegaOgre(2, 40, 10, 9, 8, "mega ogre");
+		enemy1[0] = new Ogre("ogre", 2, 30, 8, 8, 10);
+		enemy1[1] = new Dragon("dragon", 2, 30, 7, 9, 10);
+		enemy1[2] = new MegaOgre("mega ogre", 2, 40, 10, 9, 8);
 		Object[] options = {enemy1[0].getName(), enemy1[1].getName(), enemy1[2].getName()};
 		x = JOptionPane.showOptionDialog(null, "Select your enemy.", "Enemy Selector", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
 		if(x == -1){

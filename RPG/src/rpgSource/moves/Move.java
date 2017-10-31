@@ -4,7 +4,7 @@ import rpgSource.entity.Entities;
 
 public abstract class Move {
 
-	public int baseDamage;
+	private int baseDamage;
 	public String name;
 	private String des;
 	public Entities user;

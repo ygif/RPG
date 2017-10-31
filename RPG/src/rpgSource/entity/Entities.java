@@ -1,7 +1,6 @@
 package rpgSource.entity;
 
 import java.text.DecimalFormat;
-
 import rpgSource.Packet;
 import rpgSource.RPGGUI;
 

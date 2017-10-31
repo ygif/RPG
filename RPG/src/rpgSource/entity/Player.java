@@ -1,6 +1,7 @@
 package rpgSource.entity;
 
 import rpgSource.BattleSim;
+import rpgSource.ConditionalMovePacket;
 import rpgSource.ItemPacket;
 import rpgSource.Items;
 import rpgSource.MovePacket;
@@ -8,7 +9,7 @@ import rpgSource.Packet;
 import rpgSource.RPGGUI;
 import rpgSource.moves.MagicMove;
 import rpgSource.moves.Move;
-import rpgSource.moves.PreConNumMove;
+import rpgSource.moves.SpecialAttack;
 import rpgSource.moves.PlayerNormAtk;
 
 /**
@@ -30,8 +31,8 @@ public class Player extends Entities implements PlayerActions{
 		atk = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
 		swd = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", this);
 		beam = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", this, 5);
-		spAtk = new PreConNumMove(30, "super move", "The player uses the special move.", 
-				"The player is not completely charged up yet.\n", this);
+		spAtk = new SpecialAttack(30, "super move", "The player uses the special move.", 
+				"The player is not completely charged up yet.", this);
 	}
 	
 	Items[] items = new Items[2];
@@ -44,7 +45,7 @@ public class Player extends Entities implements PlayerActions{
 	Move atk;
 	Move swd;
 	MagicMove beam;
-	Move spAtk;
+	SpecialAttack spAtk;
 	
 	/**
 	 * This method uses the user's input to determine which move to use and calculate damage that the user's attack would do.
@@ -60,9 +61,7 @@ public class Player extends Entities implements PlayerActions{
 			p = new MovePacket(this, getTarget(), swd);
 			return;
 		case 3:
-			if(((PreConNumMove) beam).precondition(getMp())) {
-				p = new MovePacket(this, getTarget(), beam);
-			}
+			p = new ConditionalMovePacket(this, getTarget(), beam);
 			Entities.ui.updatePlayerMp(Entities.numberPrinter.format((double) getMp()));
 			return;
 		default:
@@ -71,20 +70,6 @@ public class Player extends Entities implements PlayerActions{
 			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			selectAction(BattleSim.getSelector());
 			return;
-		}
-	}
-	
-	/**
-	 * This method activates a special move that takes time some time before it can be used.
-	 * @return The damage the user would deal if the attack's receiver didn't have defense.
-	 */
-	public void useSpecialAttack() {
-		if (((PreConNumMove) spAtk).precondition(charge)) {
-			message(spAtk.getDes());
-			p = new MovePacket(this, getTarget(), spAtk);
-		} else if(charge < 100) {
-			message(spAtk.getDes());
-			BattleSim.battle();
 		}
 	}
 	
@@ -183,7 +168,7 @@ public class Player extends Entities implements PlayerActions{
 			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
 			return 0;
 		case 4:
-			useSpecialAttack();
+			p = new ConditionalMovePacket(this, getTarget(), spAtk);
 			return 0;
 		default:
 			message("Invalid input.");

@@ -87,8 +87,8 @@ public class BattleSim {
 	}
 	
 	public static int getSelector(){
-		int temp = 0;
-		while(temp == 0){
+		int temp = -1;
+		while(temp == -1){
 			try {
 				Thread.sleep(20);
 			} catch (InterruptedException e) {

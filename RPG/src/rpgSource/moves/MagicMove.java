@@ -2,7 +2,7 @@ package rpgSource.moves;
 
 import rpgSource.entity.Entities;
 
-public class MagicMove extends PreConNumMove {
+public class MagicMove extends Move {
 	
 	int mpUsage;
 
@@ -13,6 +13,7 @@ public class MagicMove extends PreConNumMove {
 	
 	@Override
 	public void doSomething() {
+		precondition(user.getMp());
 		user.reduceMP(mpUsage);
 	}
 }

@@ -10,7 +10,7 @@ public class PlayerNormAtk extends Move {
 	}
 
 	public PlayerNormAtk(int bd, String n, String d, Entities l) {
-		super(bd, n, d, l);
+		super(bd, n, d, null, l);
 	}
 
 	@Override

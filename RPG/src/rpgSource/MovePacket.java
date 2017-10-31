@@ -1,18 +1,18 @@
 package rpgSource;
 
 import rpgSource.entity.Entities;
-import rpgSource.moves.PreConNumMove;
+import rpgSource.moves.Move;
 
-public class ConditionalMovePacket extends Packet {
+public class MovePacket extends Packet {
 
-	PreConNumMove move;
+	Move move;
 
-	public ConditionalMovePacket(Entities u, Entities t, PreConNumMove m) {
+	public MovePacket(Entities u, Entities t, Move m) {
 		super(u, t);
 		move = m;
 	}
 	
-	public ConditionalMovePacket(Entities e, PreConNumMove m) {
+	public MovePacket(Entities e,Move m) {
 		super(e);
 		move = m;
 	}

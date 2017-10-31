@@ -19,7 +19,7 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	private static final long serialVersionUID = 6038270283388256869L;
 	
 	/** Represents the choice the player chose.*/
-	static int selector;
+	static int selector = -1;
 	JScrollPane sPane;
 	private FlowLayout layout;
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
@@ -168,19 +168,19 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	 * Resets the selector.
 	 */
 	public static void resetSelector(){
-		selector = 0;
+		selector = -1;
 	}
 	class Handler implements ActionListener{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getActionCommand().equals("1")){
-				selector = 1;
+				selector = 0;
 			}else if(e.getActionCommand().equals("2")){
-				selector = 2;
+				selector = 1;
 			}else if(e.getActionCommand().equals("3")){
-				selector = 3;
+				selector = 2;
 			}else if(e.getActionCommand().equals("4")){
-				selector = 4;
+				selector = 3;
 			}
 		}
 	}

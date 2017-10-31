@@ -17,7 +17,7 @@ public class RCAttack extends Move {
 	}
 
 	public RCAttack(int bd, String n, String d, Entities l) {
-		super(bd, n, d, l);
+		super(bd, n, d, null, l);
 		// TODO Auto-generated constructor stub
 	}
 

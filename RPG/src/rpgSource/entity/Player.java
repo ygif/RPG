@@ -1,10 +1,9 @@
 package rpgSource.entity;
 
 import rpgSource.BattleSim;
-import rpgSource.ConditionalMovePacket;
+import rpgSource.MovePacket;
 import rpgSource.ItemPacket;
 import rpgSource.Items;
-import rpgSource.MovePacket;
 import rpgSource.Packet;
 import rpgSource.RPGGUI;
 import rpgSource.moves.MagicMove;
@@ -28,10 +27,10 @@ public class Player extends Entities implements PlayerActions{
 	}
 	
 	public void createMoves() {
-		atk = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
-		swd = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", this);
-		beam = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", this, 5);
-		spAtk = new SpecialAttack(30, "super move", "The player uses the special move.", 
+		m[0] = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
+		m[1] = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", this);
+		m[2] = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", this, 5);
+		m[3] = new SpecialAttack(30, "super move", "The player uses the special move.", 
 				"The player is not completely charged up yet.", this);
 	}
 	
@@ -42,34 +41,20 @@ public class Player extends Entities implements PlayerActions{
 	private int experiencePoints = 0;
 	public int charge = 0;
 	
-	Move atk;
-	Move swd;
-	MagicMove beam;
-	SpecialAttack spAtk;
+	Move[] m = new Move[4];
 	
 	/**
 	 * This method uses the user's input to determine which move to use and calculate damage that the user's attack would do.
 	 * @param moveSelector The input selected by the user used to chose a specific move.
-	 * @return The damage the user would deal if the attack's receiver didn't have defense.
 	 */
 	public void useAMove(int moveSelector){
-		switch (moveSelector) {
-		case 1:
-			p = new MovePacket(this, getTarget(), atk);
-			return;
-		case 2:
-			p = new MovePacket(this, getTarget(), swd);
-			return;
-		case 3:
-			p = new ConditionalMovePacket(this, getTarget(), beam);
-			Entities.ui.updatePlayerMp(Entities.numberPrinter.format((double) getMp()));
-			return;
-		default:
+		if(moveSelector < m.length) {
+			p = new MovePacket(this, getTarget(), m[moveSelector]);
+		} else {
 			message("Invalid input.\n");
 			message("Choose an action:");
 			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			selectAction(BattleSim.getSelector());
-			return;
 		}
 	}
 	
@@ -80,10 +65,8 @@ public class Player extends Entities implements PlayerActions{
 	public boolean flee() {
 		double temp = Math.random();
 		if(temp >= 0.0 && temp < 0.7){
-			//System.out.println(temp);
 			return false;
 		}else{
-			//System.out.println(temp);
 			return true;
 		}
 	}
@@ -140,12 +123,12 @@ public class Player extends Entities implements PlayerActions{
 	public int selectAction(int selector) {
 		RPGGUI.resetSelector();
 		switch (selector) {
-		case 1:
+		case 0:
 			message("\nChose a move.");
 			message("Attack(1), sword slash(2), or magic beam(3).");
 			useAMove(BattleSim.getSelector());
 			return 0;
-		case 2:
+		case 1:
 			message("The player is trying to flee.");
 			if (flee() == true) {
 				message("The player successfully flees the battle.");
@@ -160,15 +143,15 @@ public class Player extends Entities implements PlayerActions{
 				};
 				return 0;
 			}
-		case 3:
+		case 2:
 			message("Choose an item:");
 			message("Health potion(1) or damage potion(2).");
 			RPGGUI.resetSelector();
 			useAnItem(BattleSim.getSelector());
 			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
 			return 0;
-		case 4:
-			p = new ConditionalMovePacket(this, getTarget(), spAtk);
+		case 3:
+			p = new MovePacket(this, getTarget(), (SpecialAttack) m[3]);
 			return 0;
 		default:
 			message("Invalid input.");

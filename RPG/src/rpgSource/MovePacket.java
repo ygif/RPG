@@ -19,9 +19,9 @@ public class MovePacket extends Packet {
 
 	@Override
 	public void apply() {
+		user.message(move.getDes());
 		double damage = move.baseDamage * ((double) user.getAttack()/10);
 		target.reduceHealth(damage);
-		Entities.ui.updateEnemyHealth(Entities.numberPrinter.format(target.getCurrentHealth()));
 		Entities.ui.appendToConsole("The " + target.getName() + " has " + Entities.numberPrinter.format(target.getCurrentHealth()) + " health.\n");
 		move.doSomething();
 	}

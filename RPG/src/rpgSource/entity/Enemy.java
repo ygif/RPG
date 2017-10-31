@@ -7,7 +7,7 @@ package rpgSource.entity;
  *
  */
 
-public abstract class Enemy extends Entities{
+public abstract class Enemy extends Entities implements Actions{
 
 	Enemy(String name, int level, int health, int attack, int defense, int speed) {
 		super(name, health, attack, defense, speed);
@@ -20,6 +20,5 @@ public abstract class Enemy extends Entities{
 	}
 	
 	boolean turn = false;
-	
-	public abstract double useAMoveRandom(int s);	
+		
 }

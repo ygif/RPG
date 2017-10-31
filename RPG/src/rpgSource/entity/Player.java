@@ -4,6 +4,7 @@ import rpgSource.BattleSim;
 import rpgSource.ItemPacket;
 import rpgSource.Items;
 import rpgSource.MovePacket;
+import rpgSource.Packet;
 import rpgSource.RPGGUI;
 import rpgSource.moves.MagicMove;
 import rpgSource.moves.Move;
@@ -53,18 +54,15 @@ public class Player extends Entities implements PlayerActions{
 	public void useAMove(int moveSelector){
 		switch (moveSelector) {
 		case 1:
-			message(atk.getDes());
 			p = new MovePacket(this, getTarget(), atk);
 			return;
 		case 2:
-			message(swd.getDes());
 			p = new MovePacket(this, getTarget(), swd);
 			return;
 		case 3:
-			if(beam.precondition(getMp())) {
+			if(((PreConNumMove) beam).precondition(getMp())) {
 				p = new MovePacket(this, getTarget(), beam);
 			}
-			message(beam.getDes());
 			Entities.ui.updatePlayerMp(Entities.numberPrinter.format((double) getMp()));
 			return;
 		default:
@@ -158,22 +156,28 @@ public class Player extends Entities implements PlayerActions{
 		RPGGUI.resetSelector();
 		switch (selector) {
 		case 1:
-			ui.appendToConsole("Chose a move.\n");
-			ui.appendToConsole("Attack(1), sword slash(2), or magic beam(3).\n");
+			message("\nChose a move.");
+			message("Attack(1), sword slash(2), or magic beam(3).");
 			useAMove(BattleSim.getSelector());
 			return 0;
 		case 2:
-			ui.appendToConsole("The player is trying to flee.\n");
+			message("The player is trying to flee.");
 			if (flee() == true) {
-				ui.appendToConsole("The player successfully flees the battle.\n");
+				message("The player successfully flees the battle.");
 				return -1;
 			} else {
-				ui.appendToConsole("The player failed to flee.\n");
+				
+				p = new Packet(this) {
+					@Override
+					public void apply() {
+						message("The player failed to flee.");
+					}
+				};
 				return 0;
 			}
 		case 3:
-			ui.appendToConsole("Choose an item:\n");
-			ui.appendToConsole("Health potion(1) or damage potion(2).\n");
+			message("Choose an item:");
+			message("Health potion(1) or damage potion(2).");
 			RPGGUI.resetSelector();
 			useAnItem(BattleSim.getSelector());
 			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
@@ -182,9 +186,9 @@ public class Player extends Entities implements PlayerActions{
 			useSpecialAttack();
 			return 0;
 		default:
-			ui.appendToConsole("Invalid input.\n");
-			ui.appendToConsole("You can only type in:\n");
-			ui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
+			message("Invalid input.");
+			message("You can only type in:");
+			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			return selectAction(BattleSim.getSelector());
 		}
 	}

@@ -1,5 +1,7 @@
 package rpgSource.entity;
 
+import rpgSource.BattleSim;
+import rpgSource.MovePacket;
 import rpgSource.moves.Move;
 import rpgSource.moves.NormAtk;
 import rpgSource.moves.RCAttack;
@@ -18,22 +20,27 @@ public class Ogre extends Enemy{
 		ram = new RCAttack(22, "ram", "The " + name + " rams itself into the player", this);
 	}	
 	@Override
-	public double useAMoveRandom(int s){
-		if(s >= 0 && s < 45){
+	public void useAMove(int moveSelector){
+		if(moveSelector >= 0 && moveSelector < 45){
 			//Attack move
-			message(atk.getDes());
-			totalDamage = atk.baseDamage * ((double) attack/10);
-			return totalDamage;
-		}else if(s >= 45 && s < 90){
+			p = new MovePacket(this, getTarget(), atk);
+		}else if(moveSelector >= 45 && moveSelector < 90){
 			//Club hit
-			message(club.getDes());
-			totalDamage = club.baseDamage * ((double) attack/10);
-		}else if (s >= 90 && s < 100) {
+			p = new MovePacket(this, getTarget(), club);
+
+		}else if (moveSelector >= 90 && moveSelector < 100) {
 			//charge attack
-			message(ram.getDes());
-			totalDamage = ram.baseDamage * ((double) attack/10);
-			ram.doSomething();
+			p = new MovePacket(this, getTarget(), ram);
 		}
-		return totalDamage;
+	}
+	
+	@Override
+	public int selectAction(int selector) {
+		return 0;
+	}
+	
+	@Override
+	public Entities getTarget() {
+		return BattleSim.player1;
 	}
 }

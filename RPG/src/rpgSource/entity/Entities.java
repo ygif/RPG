@@ -23,7 +23,7 @@ public class Entities {
 	private int speed;
 	private int maxMp;
 	private int mp;
-	Packet p;
+	public Packet p;
 	public static DecimalFormat numberPrinter = new DecimalFormat("###");
 	public static RPGGUI ui = RPGGUI.getInstance();
 	

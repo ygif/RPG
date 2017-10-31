@@ -1,5 +1,6 @@
 package rpgSource.entity;
 
+import rpgSource.MovePacket;
 import rpgSource.moves.Move;
 import rpgSource.moves.NormAtk;
 import rpgSource.moves.RCAttack;
@@ -20,26 +21,19 @@ public class MegaOgre extends Ogre {
 	}
 	
 	@Override
-	public double useAMoveRandom(int s){
-		if(s >= 0 && s < 30){
+	public void useAMove(int moveSelector){
+		if(moveSelector >= 0 && moveSelector < 30){
 			//Attack move
-			message(atk.getDes());
-			totalDamage = atk.baseDamage * ((double) attack/10);
-			return totalDamage;
-		}else if(s >= 30 && s < 60){
+			p = new MovePacket(this, getTarget(), atk);
+		}else if(moveSelector >= 30 && moveSelector < 60){
 			//Club hit
-			message(club.getDes());
-			totalDamage = club.baseDamage * ((double) attack/10);
-		}else if(s >= 60 && s < 90) {
+			p = new MovePacket(this, getTarget(), club);
+		}else if(moveSelector >= 60 && moveSelector < 90) {
 			//arm hit
-			message(smash.getDes());
-			totalDamage = smash.baseDamage * ((double) attack/10);
-		}else if (s >= 90 && s < 100) {
+			p = new MovePacket(this, getTarget(), smash);
+		}else if (moveSelector >= 90 && moveSelector < 100) {
 			//charge attack
-			message(ram.getDes());
-			totalDamage = ram.baseDamage * ((double) attack/10);
-			ram.doSomething();
+			p = new MovePacket(this, getTarget(), ram);
 		}
-		return totalDamage + 1.0;
 	}
 }

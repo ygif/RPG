@@ -11,7 +11,7 @@ import rpgSource.entity.Ogre;
 import rpgSource.entity.Player;
 
 public class BattleSim {
-	static Player player1 = new Player(45, 15, 10, 12, 10);
+	public static Player player1 = new Player(45, 15, 10, 12, 10);
 	public static Enemy[] enemy1 = new Enemy[3];
 	static double damage = 0;
 	public static int turn = 1;
@@ -31,7 +31,7 @@ public class BattleSim {
 		player1.createMoves();
 		gui.appendToConsole("Start battle!\n");
 		String winner = battle();
-		gui.appendToConsole("%n" + winner + " wins.\n");
+		gui.appendToConsole(winner + " wins.\n");
 		JOptionPane.showMessageDialog(gui, winner + " wins.", "Winner", JOptionPane.INFORMATION_MESSAGE);
 		gui.dispose();
 	}
@@ -48,8 +48,9 @@ public class BattleSim {
 					return "Nobody";
 				}
 				playersTurn = false;
-				gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
+				RPGGUI.resetSelector();
 			}
+			player1.p.apply();
 			if(enemy1[x].getCurrentHealth() <= 0){
 				player1.setExperiencePoints(player1.getExperiencePoints() + 6);
 				player1.increaseLevel();
@@ -62,23 +63,18 @@ public class BattleSim {
 					((Dragon) enemy1[x]).land();
 					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
 					playersTurn = true;
-					damage = ((Dragon) enemy1[x]).randomActionSelctor();
+					((Dragon) enemy1[x]).selectAction((int) Math.random() * 100);
 				} else {
 					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
-					damage = enemy1[x].useAMoveRandom((int) (Math.random() * 100));
+					enemy1[x].useAMove((int) (Math.random() * 100));
 					playersTurn = true;
 				}
-				if(damage > 0){
-					player1.reduceHealth(damage);
-					damage = 0;
-				}
-				gui.updatePlayerHealth(numberPrinter.format(player1.getCurrentHealth()));
-				gui.appendToConsole("The player has " + numberPrinter.format(player1.getCurrentHealth()) + " health.\n");
+				enemy1[x].p.apply();
 			}
 			if (player1.getCurrentHealth() <= 0){
 				return "The enemy";
 			}
-			gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
+			updateStats();
 			turn++;
 		}
 		return "nobody";

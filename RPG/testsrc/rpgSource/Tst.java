@@ -38,13 +38,7 @@ public class Tst {
 	
 	@Test
 	public void testAttacking() {
-		assertEquals(12 * (o.getAttack()/10), o.useAMoveRandom(30), 0.1);
-		assertEquals(16 * (o.getAttack()/10), o.useAMoveRandom(50), 0.1);
-		assertEquals(22 * (o.getAttack()/10), o.useAMoveRandom(95), 0.1);
 		
-		assertEquals(14 * (d.getAttack()/10), d.useAMoveRandom(95), 0.1);
-		assertEquals(19 * (d.getAttack()/10), d.useAMoveRandom(95), 0.1);
-		assertEquals(25 * (d.getAttack()/10), d.useAMoveRandom(95), 0.1);
 	}
 	
 	@Test

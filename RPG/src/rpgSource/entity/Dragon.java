@@ -1,6 +1,7 @@
 package rpgSource.entity;
 
 import rpgSource.BattleSim;
+import rpgSource.MovePacket;
 import rpgSource.moves.Move;
 import rpgSource.moves.NormAtk;
 
@@ -27,34 +28,31 @@ public class Dragon extends Enemy{
 	int endFlight;
 	
 	@Override
-	public double useAMoveRandom(int s) {
-		if(s >= 0 && s < 45){
+	public void useAMove(int moveSelector) {
+		if(moveSelector >= 0 && moveSelector < 45){
 			//Attack 
-			message(atk.getDes());
-			totalDamage = atk.baseDamage * ((double) attack/10);
-			return totalDamage;
-		}else if(s >= 45 && s < 90){
+			p = new MovePacket(this, getTarget(), atk);
+		}else if(moveSelector >= 45 && moveSelector < 90){
 			//fireball
-			message(fireball.getDes());
-			totalDamage = fireball.baseDamage * ((double) attack/10);
-		}else if (s >= 90 && s < 100) {
+			p = new MovePacket(this, getTarget(), fireball);
+		}else if (moveSelector >= 90 && moveSelector < 100) {
 			//flamethrower
-			message(flamethrower.getDes());
-			totalDamage = flamethrower.baseDamage * ((double) attack/10);
+			p = new MovePacket(this, getTarget(), flamethrower);
 		}
-		return totalDamage;
 	}
 	public void fly() {
 		flying = true;
 		endFlight = BattleSim.turn + 2;
 		message("The dragon flies up into the sky.");
 	}
+	
 	public void land(){
 		if(flying == true && BattleSim.turn == endFlight){
 			flying = false;
 			message("The dragon lands on the ground.\n");
 		}
 	}
+	
 	@Override
 	public double reduceHealth(double damage) {
 		if (flying == true) {
@@ -69,19 +67,23 @@ public class Dragon extends Enemy{
 			return currentHealth;
 		}
 	}
-	public double randomActionSelctor() {
-		double temp = Math.random();
-		if (temp >= 0 && temp < 0.95) {
-			double damage = useAMoveRandom((int) (Math.random() * 100));
-			return damage;
+
+	@Override
+	public int selectAction(int selector) {
+		if (selector >= 0 && selector < 95) {
+			useAMove((int) (Math.random() * 100));
 		} else {
 			if(flying == false){
 				fly();
-				return 0;
 			}else{
 				message("The dragon doesn't do anything.");
-				return 0;
 			}
 		}
+		return 0;
+	}
+
+	@Override
+	public Entities getTarget() {
+		return BattleSim.player1;
 	}
 }

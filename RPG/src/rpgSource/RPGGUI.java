@@ -118,8 +118,7 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	 
 	public void appendToConsole(String s) {
 		console.append(s);
-		JScrollBar sb = sPane.getVerticalScrollBar();
-		sb.setValue(sb.getMaximum());
+		console.setCaretPosition(console.getText().length());
 	}
 	 
 	/**

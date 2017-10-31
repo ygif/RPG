@@ -12,5 +12,10 @@ public abstract class Packet {
 		target = t;
 	}
 	
+	public Packet(Entities e) {
+		user = e;
+		target = e;
+	}
+	
 	public abstract void apply();
 }

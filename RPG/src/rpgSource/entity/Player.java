@@ -154,7 +154,7 @@ public class Player extends Entities implements PlayerActions{
 			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
 			return 0;
 		case 3:
-			p = new MovePacket(this, getTarget(), m[3], charge);
+			p = new MovePacket(this, getTarget(), spAtk, charge);
 			return 0;
 		default:
 			message("Invalid input.");

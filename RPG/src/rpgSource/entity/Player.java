@@ -30,7 +30,7 @@ public class Player extends Entities implements PlayerActions{
 		m[0] = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
 		m[1] = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", this);
 		m[2] = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", this, 5);
-		m[3] = new SpecialAttack(30, "super move", "The player uses the special move.", 
+		spAtk = new SpecialAttack(30, "super move", "The player uses the special move.", 
 				"The player is not completely charged up yet.", this);
 	}
 	
@@ -41,15 +41,18 @@ public class Player extends Entities implements PlayerActions{
 	private int experiencePoints = 0;
 	public int charge = 0;
 	
-	Move[] m = new Move[4];
+	Move[] m = new Move[3];
+	SpecialAttack spAtk;
 	
 	/**
 	 * This method uses the user's input to determine which move to use and calculate damage that the user's attack would do.
 	 * @param moveSelector The input selected by the user used to chose a specific move.
 	 */
 	public void useAMove(int moveSelector){
-		if(moveSelector < m.length) {
+		if(moveSelector < m.length && !(m[moveSelector] instanceof MagicMove)) {
 			p = new MovePacket(this, getTarget(), m[moveSelector]);
+		} else if(m[moveSelector] instanceof MagicMove) {
+			p = new MovePacket(this, getTarget(), m[moveSelector], getMp());
 		} else {
 			message("Invalid input.\n");
 			message("Choose an action:");
@@ -151,7 +154,7 @@ public class Player extends Entities implements PlayerActions{
 			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
 			return 0;
 		case 3:
-			p = new MovePacket(this, getTarget(), (SpecialAttack) m[3]);
+			p = new MovePacket(this, getTarget(), m[3], charge);
 			return 0;
 		default:
 			message("Invalid input.");

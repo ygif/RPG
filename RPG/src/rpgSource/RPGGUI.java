@@ -87,7 +87,7 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	 */
 	 public void updateEnemyHealth(String eHealth){
 		teHealth = eHealth;
-		enemyHealth.setText("Enemy: " + teHealth + "/" + temHealth);
+		enemyHealth.setText(enemyName + ": " + teHealth + "/" + temHealth);
 	}
 	 
 	 /**
@@ -163,7 +163,7 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		add(four);
 		setVisible(true);
 	}
-	
+    
 	/**
 	 * Resets the selector.
 	 */

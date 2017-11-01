@@ -13,7 +13,6 @@ public class MagicMove extends Move {
 	
 	@Override
 	public void doSomething() {
-		precondition(user.getMp());
 		user.reduceMP(mpUsage);
 	}
 }

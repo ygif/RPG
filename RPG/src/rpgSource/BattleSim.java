@@ -38,6 +38,7 @@ public class BattleSim {
 	
 	public static String battle() {
 		while(player1.getCurrentHealth() > 0 || enemy1[x].getCurrentHealth() > 0 ){
+			System.out.println(player1.charge);
 			if(playersTurn == true){
 				gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
 				gui.appendToConsole("It's the players turn.\n");
@@ -51,12 +52,12 @@ public class BattleSim {
 				RPGGUI.resetSelector();
 			}
 			player1.p.apply();
+			updateStats();
 			if(enemy1[x].getCurrentHealth() <= 0){
 				player1.setExperiencePoints(player1.getExperiencePoints() + 6);
 				player1.increaseLevel();
 				return "The player";
 			}
-			updateStats();
 			gui.appendToConsole("\n");
 			if(playersTurn == false) {
 				if (x == 1) {
@@ -120,7 +121,7 @@ public class BattleSim {
 	}
 
 	static void init(){
-		enemy1[0] = new Ogre("ogre", 2, 30, 8, 8, 10);
+		enemy1[0] = new Ogre("ogre", 2, 40, 8, 8, 10);
 		enemy1[1] = new Dragon("dragon", 2, 30, 7, 9, 10);
 		enemy1[2] = new MegaOgre("mega ogre", 2, 40, 10, 9, 8);
 		Object[] options = {enemy1[0].getName(), enemy1[1].getName(), enemy1[2].getName()};

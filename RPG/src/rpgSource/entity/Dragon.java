@@ -20,8 +20,9 @@ public class Dragon extends Enemy{
 		super(name, level, health, attack, defense, speed);
 		this.name = name;
 		atk = new NormAtk(14, "normal attack", "The " + name + " attacks the player.", this);
-		fireball = new NormAtk(19, "fireball", "The " + name + " spits out a ball of fire at the player.", this);
-		flamethrower = new NormAtk(25, "flamethrower", "The " + name + " breathes out an enormous amount of flames at the player", this);
+		fireball = new NormAtk(19, "fireball", "The " + name + " spits out a ball of fire at the player.", "A fireball", this);
+		flamethrower = new NormAtk(25, "flamethrower", "The " + name + " breathes out an enormous amount of flames at the player",
+				"Release a continuous flame for a little bit",this);
 	}
 	
 	public boolean flying = false;

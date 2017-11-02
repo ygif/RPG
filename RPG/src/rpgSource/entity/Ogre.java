@@ -16,8 +16,8 @@ public class Ogre extends Enemy{
 		super(name, level, health, attack, defense, speed);
 		this.name = name;
 		atk = new NormAtk(12, "normal attack", "The " + name + " attacks the player.", this);
-		club = new NormAtk(16, "club hit", "The " + name + " hits the player with a club.", this);
-		ram = new RCAttack(22, "ram", "The " + name + " rams itself into the player", this);
+		club = new NormAtk(16, "club hit", "The " + name + " hits the player with a club.", "Use a club to hit a target", this);
+		ram = new RCAttack(22, "ram", "The " + name + " rams itself into the player", "Run into the target as fast as possible. Damages the user.", this);
 	}	
 	@Override
 	public void useAMove(int moveSelector){

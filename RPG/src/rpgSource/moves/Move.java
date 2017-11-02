@@ -4,39 +4,43 @@ import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 import java.util.function.Predicate;
 
-import rpgSource.entity.Entities;
+import rpgSource.Describable;
 
-public abstract class Move {
+import rpgSource.entity.Entities;
+import rpgSource.util.Usable;
+
+public abstract class Move extends Usable implements Describable{
 
 	private int baseDamage;
-	public String name;
+	private String name;
 	private String des;
+	private String useMessage;
 	public Entities user;
 	Predicate<Number> tester;
 	String fail;
 	private boolean passed;
 	
-	private Move(int bd, String n, String d, Entities l) {
+	private Move(int bd, String n, String d, String u, Entities l) {
 		baseDamage = bd;
 		name = n;
 		des = d;
 		user = l;
 	}
 	
-	public Move(int bd, String n, String d) {
-		this(bd, n, d, null, null, (a) -> true);
+	public Move(int bd, String n, String d, String u) {
+		this(bd, n, d, u, null, null, (a) -> true);
 	}
 	
-	public Move(int bd, String n, String d, String f) {
-		this(bd, n, d, f, null, (a) -> true);
+	public Move(int bd, String n, String d, String f, String u) {
+		this(bd, n, d, f, u, null, (a) -> true);
 	}
 
-	public Move(int bd, String n, String d, String f, Entities l) {
-		this(bd, n, d, f, l, (a) -> true);
+	public Move(int bd, String n, String d, String f, String u, Entities l) {
+		this(bd, n, d, f, u, l, (a) -> true);
 	}
 	
-	public Move(int bd, String n, String d, String f, Entities l, Predicate<Number> t) {
-		this(bd, n, d, l);
+	public Move(int bd, String n, String d, String f, String u, Entities l, Predicate<Number> t) {
+		this(bd, n, d, u, l);
 		tester = t;
 		fail = f;
 		passed = false;
@@ -68,5 +72,17 @@ public abstract class Move {
 	
 	public int getBaseDamage() {
 		return passed ? baseDamage : 0;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public String getDescription() {
+		return des;
+	}
+	
+	public String[] getExtraInfo() {
+		return new String[] {"Base Damage: " + baseDamage};
 	}
 }

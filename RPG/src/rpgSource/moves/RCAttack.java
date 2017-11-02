@@ -11,14 +11,12 @@ import rpgSource.entity.Entities;
  */
 public class RCAttack extends Move {
 
-	public RCAttack(int bd, String n, String d) {
-		super(bd, n, d);
-		// TODO Auto-generated constructor stub
+	public RCAttack(int bd, String n, String d, String u) {
+		super(bd, n, d, u);
 	}
 
-	public RCAttack(int bd, String n, String d, Entities l) {
-		super(bd, n, d, null, l);
-		// TODO Auto-generated constructor stub
+	public RCAttack(int bd, String n, String d, String u, Entities l) {
+		super(bd, n, d, u, null, l);
 	}
 
 	@Override

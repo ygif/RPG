@@ -1,9 +1,9 @@
 package rpgSource.entity;
 
 import rpgSource.BattleSim;
-import rpgSource.MovePacket;
 import rpgSource.ItemPacket;
 import rpgSource.Items;
+import rpgSource.MovePacket;
 import rpgSource.Packet;
 import rpgSource.RPGGUI;
 import rpgSource.moves.MagicMove;
@@ -22,16 +22,16 @@ public class Player extends Entities implements PlayerActions{
 
 	public Player(int health, int attack, int defense, int speed, int mp) {
 		super("player", health, attack, defense, speed, mp);
-		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion");
-		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.");
+		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion", "Heals a target by 15 health");
+		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.", "Damages a target by 15 health");
 	}
 	
 	public void createMoves() {
 		m[0] = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
-		m[1] = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", this);
-		m[2] = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", this, 5);
+		m[1] = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", "Use a sword to damage a target", this);
+		m[2] = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", "A beam concentrated magic. Uses MP",this, 5);
 		spAtk = new SpecialAttack(30, "super move", "The player uses the special move.", 
-				"The player is not completely charged up yet.", this);
+				"The player is not completely charged up yet.", "A powerful attack that needs time charge.", this);
 	}
 	
 	Items[] items = new Items[2];

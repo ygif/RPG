@@ -15,9 +15,9 @@ public class MegaOgre extends Ogre {
 	public MegaOgre(String name, int level, int health, int attack, int defense, int speed) {
 		super(name, level, health, attack, defense, speed);
 		atk = new NormAtk(15, "normal attack", "The " + name + " attacks the player.", this);
-		club = new NormAtk(18, "club hit", "The " + name + " hits the player with a club.", this);
-		smash = new NormAtk(21, "ogre smash", "The " + name + " smashes the player.", this);
-		ram = new RCAttack(25, "ram", "The " + name + " rams itself into the player", this);
+		club = new NormAtk(18, "club hit", "The " + name + " hits the player with a club.", "Use a club to hit a target", this);
+		smash = new NormAtk(21, "ogre smash", "The " + name + " smashes the player.", "A strong punch to the target", this);
+		ram = new RCAttack(25, "ram", "The " + name + " rams itself into the player", "Run into the target as fast as possible. Damages the user.", this);
 	}
 	
 	@Override

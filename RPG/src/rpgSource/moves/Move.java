@@ -7,9 +7,8 @@ import java.util.function.Predicate;
 import rpgSource.Describable;
 
 import rpgSource.entity.Entities;
-import rpgSource.util.Usable;
 
-public abstract class Move extends Usable implements Describable{
+public abstract class Move implements Describable{
 
 	private int baseDamage;
 	private String name;
@@ -66,8 +65,8 @@ public abstract class Move extends Usable implements Describable{
 		return precondition(is.getAsInt());
 	}
 	
-	public String getDes() {
-		return passed ? des : fail;
+	public String useMessage() {
+		return passed ? useMessage : fail;
 	}
 	
 	public int getBaseDamage() {

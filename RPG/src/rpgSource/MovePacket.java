@@ -25,7 +25,7 @@ public class MovePacket extends Packet {
 	@Override
 	public void apply() {
 		move.precondition(new Integer(value));
-		user.message(move.getDes());
+		user.message(move.useMessage());
 		double damage = move.getBaseDamage() * ((double) user.getAttack()/10);
 		if(damage > 0) {
 			target.reduceHealth(damage);

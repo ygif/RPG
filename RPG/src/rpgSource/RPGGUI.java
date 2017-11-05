@@ -1,11 +1,20 @@
 package rpgSource;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import rpgSource.entity.Player;
+import rpgSource.util.DescribableList;
+import rpgSource.util.DescribableRenderer;
+
 import java.awt.event.*;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * This class is used to display everything the player sees.
@@ -23,6 +32,7 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	JScrollPane sPane;
 	private FlowLayout layout;
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
+	JTabbedPane menu;
 	JLabel playerHealth;
 	JLabel enemyHealth;
 	JLabel playerMp;
@@ -46,40 +56,8 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		}
 		return ui;
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public RPGGUI(double mpH, double mpM,double meH, String name) {
-		super("RPG Battle");
-		setAlwaysOnTop(true);
-		tpHealth = numberPrinter.format(mpH);
-		tpmHealth = tpHealth;
-		teHealth = numberPrinter.format(meH);
-		temHealth = teHealth;
-		tpMp = numberPrinter.format(mpM);
-		tpmMp = tpMp;
-		enemyName = name;
-		layout = new FlowLayout();
-		setLayout(layout);
-		playerHealth = new JLabel("Player: " + tpHealth + "/" + tpmHealth);
-		add(playerHealth);
-		playerMp = new JLabel("MP: " + tpMp + "/" + tpmMp);
-		add(playerMp);
-		enemyHealth = new JLabel(enemyName + ": " + teHealth + "/" + temHealth);
-		add(enemyHealth);
-		console = new JTextArea(15, 30);
-		console.setLineWrap(true);
-		console.setEditable(false);
-		console.setAutoscrolls(true);
-		sPane = new JScrollPane(console, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		sPane.setBounds(250, 300, 200, 200);
-		add(sPane);
-	}
 	
-	public RPGGUI(){
-		
-	}
+	public RPGGUI(){}
 	
 	/**
 	 * This method updates the GUI so it displays the enemy's current health.
@@ -149,6 +127,10 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		sPane = new JScrollPane(console, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		sPane.setBounds(250, 300, 200, 200);
 		add(sPane);
+		menu = new JTabbedPane(JTabbedPane.LEFT, JTabbedPane.SCROLL_TAB_LAYOUT);
+		menu.setPreferredSize(new Dimension(400, 100));
+		menu.addChangeListener(hand);
+		add(menu);
 		one = new JButton("1");
 		two = new JButton("2");
 		three = new JButton("3");
@@ -157,11 +139,31 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		two.addActionListener(hand);
 		three.addActionListener(hand);
 		four.addActionListener(hand);
-		add(one);
-		add(two);
-		add(three);
-		add(four);
+		//add(one);
+		//add(two);
+		//add(three);
+		//add(four);
 		setVisible(true);
+	}
+	
+	public void setActionMenu(Player p) {
+		ArrayList<DescribableList> list = p.al;
+		
+		for(int i = 0; i < list.size(); i++) {
+			DefaultListModel<Describable> dlm = new DefaultListModel<Describable>();
+			DescribableList dl = list.get(i);
+			for (int j = 0; j < dl.size(); j++) {
+				dlm.addElement(dl.get(j));
+			}
+			
+			JList<Describable> jl = new JList<Describable>(dlm);
+			ListCellRenderer<Describable> lc = new DescribableRenderer();
+			jl.setCellRenderer(lc);
+			jl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			jl.setLayoutOrientation(JList.VERTICAL);
+			jl.setVisibleRowCount(5);
+			menu.addTab(list.get(i).getName(), jl);
+		}
 	}
     
 	/**
@@ -170,7 +172,9 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	public static void resetSelector(){
 		selector = -1;
 	}
-	class Handler implements ActionListener{
+	
+	class Handler implements ActionListener, ChangeListener{
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getActionCommand().equals("1")){
@@ -182,6 +186,12 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 			}else if(e.getActionCommand().equals("4")){
 				selector = 3;
 			}
+		}
+
+		@Override
+		public void stateChanged(ChangeEvent e) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 }

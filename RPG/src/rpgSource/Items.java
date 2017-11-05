@@ -1,8 +1,6 @@
 package rpgSource;
 
-import rpgSource.util.Usable;
-
-public class Items extends Usable implements Describable{
+public class Items implements Describable{
 	
 	int quantity;
 	double damage;
@@ -17,11 +15,12 @@ public class Items extends Usable implements Describable{
 	 * @param name The name of the item.
 	 * @param usageMessage The message displayed when an item is used.
 	 */
-	public Items(int quantity, double damage, String name, String usageMessage, String d){
+	public Items(int quantity, double damage, String name, String usageMessage, String description){
 		this.quantity = quantity;
 		this.damage = damage;
 		this.name = name;
 		this.usageMessage = usageMessage;
+		this.description = description;
 	}
 	
 	/**

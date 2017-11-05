@@ -1,5 +1,7 @@
 package rpgSource.entity;
 
+import java.util.ArrayList;
+
 import rpgSource.BattleSim;
 import rpgSource.ItemPacket;
 import rpgSource.Items;
@@ -9,6 +11,7 @@ import rpgSource.RPGGUI;
 import rpgSource.moves.MagicMove;
 import rpgSource.moves.Move;
 import rpgSource.moves.SpecialAttack;
+import rpgSource.util.DescribableList;
 import rpgSource.moves.PlayerNormAtk;
 
 /**
@@ -32,6 +35,15 @@ public class Player extends Entities implements PlayerActions{
 		m[2] = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", "A beam concentrated magic. Uses MP",this, 5);
 		spAtk = new SpecialAttack(30, "super move", "The player uses the special move.", 
 				"The player is not completely charged up yet.", "A powerful attack that needs time charge.", this);
+		al = new ArrayList<DescribableList>();
+		DescribableList ul1 = new DescribableList("Moves", m);
+		DescribableList ul2 = new DescribableList("Items", items);
+		DescribableList ul3 = new DescribableList("Special Attack", spAtk);
+		DescribableList ul4 = new DescribableList("Flee", new PlayerNormAtk(0, "Flee", "The player tries to flee the battle"));
+		al.add(ul1);
+		al.add(ul2);
+		al.add(ul3);
+		al.add(ul4);
 	}
 	
 	Items[] items = new Items[2];
@@ -40,6 +52,7 @@ public class Player extends Entities implements PlayerActions{
 	int level = 1;
 	private int experiencePoints = 0;
 	public int charge = 0;
+	public ArrayList<DescribableList> al;
 	
 	Move[] m = new Move[3];
 	SpecialAttack spAtk;

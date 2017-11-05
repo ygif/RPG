@@ -29,6 +29,7 @@ public class BattleSim {
 			e.printStackTrace();
 		}
 		player1.createMoves();
+		gui.setActionMenu(player1);
 		gui.appendToConsole("Start battle!\n");
 		String winner = battle();
 		gui.appendToConsole(winner + " wins.\n");
@@ -38,7 +39,6 @@ public class BattleSim {
 	
 	public static String battle() {
 		while(player1.getCurrentHealth() > 0 || enemy1[x].getCurrentHealth() > 0 ){
-			System.out.println(player1.charge);
 			if(playersTurn == true){
 				gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
 				gui.appendToConsole("It's the players turn.\n");

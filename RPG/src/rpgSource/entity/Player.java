@@ -31,15 +31,16 @@ public class Player extends Entities implements PlayerActions{
 	
 	public void createMoves() {
 		m[0] = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
-		m[1] = new PlayerNormAtk(14, "sword", "The player slashes at the enemy with a sword.", "Use a sword to damage a target", this);
-		m[2] = new MagicMove(18, "magic beam", "The player emits a beam of concentrated magic at the enemy.", "A beam concentrated magic. Uses MP",this, 5);
+		m[1] = new PlayerNormAtk(14, "sword","Use a sword to damage a target" , "The player slashes at the enemy with a sword.", this);
+		m[2] = new MagicMove(18, "magic beam", "A beam concentrated magic. Uses MP","The player emits a beam of concentrated magic at the enemy." ,this, 5);
 		spAtk = new SpecialAttack(30, "super move", "The player uses the special move.", 
 				"The player is not completely charged up yet.", "A powerful attack that needs time charge.", this);
 		al = new ArrayList<DescribableList>();
 		DescribableList ul1 = new DescribableList("Moves", m);
-		DescribableList ul2 = new DescribableList("Items", items);
-		DescribableList ul3 = new DescribableList("Special Attack", spAtk);
-		DescribableList ul4 = new DescribableList("Flee", new PlayerNormAtk(0, "Flee", "The player tries to flee the battle"));
+		DescribableList ul2 = new DescribableList("Flee", new PlayerNormAtk(0, "Flee", "The player tries to flee the battle"));
+		DescribableList ul3 = new DescribableList("Items", items);
+		DescribableList ul4 = new DescribableList("Special Attack", spAtk);
+		
 		al.add(ul1);
 		al.add(ul2);
 		al.add(ul3);
@@ -70,7 +71,7 @@ public class Player extends Entities implements PlayerActions{
 			message("Invalid input.\n");
 			message("Choose an action:");
 			message("moves(1), flee(2), use an item(3), or super attack(4).");
-			selectAction(BattleSim.getSelector());
+			selectAction(RPGGUI.getSel(), RPGGUI.getSel2());
 		}
 	}
 	
@@ -93,17 +94,17 @@ public class Player extends Entities implements PlayerActions{
 	 */
 	public void useAnItem(int inputSelector){
 		switch(inputSelector) {
-		case 1://Player uses one health potion.
+		case 0://Player uses one health potion.
 			p = new ItemPacket(this, getTarget(), items[0]);
 			return;
-		case 2:
+		case 1:
 			p = new ItemPacket(this, getTarget(), items[1]);
 			return;//Player uses damage potion.
 		default:
 			message("Invalid input.\n");
 			message("Choose an action:");
 			message("moves(1), flee(2), use an item(3), or super attack(4).");
-			selectAction(BattleSim.getSelector());
+			selectAction(0, 1);
 		}
 		return;
 	}
@@ -136,13 +137,12 @@ public class Player extends Entities implements PlayerActions{
 	}
 
 	@Override
-	public int selectAction(int selector) {
-		RPGGUI.resetSelector();
-		switch (selector) {
+	public int selectAction(int sel, int sel2) {
+		switch (sel) {
 		case 0:
 			message("\nChose a move.");
 			message("Attack(1), sword slash(2), or magic beam(3).");
-			useAMove(BattleSim.getSelector());
+			useAMove(sel2);
 			return 0;
 		case 1:
 			message("The player is trying to flee.");
@@ -162,8 +162,7 @@ public class Player extends Entities implements PlayerActions{
 		case 2:
 			message("Choose an item:");
 			message("Health potion(1) or damage potion(2).");
-			RPGGUI.resetSelector();
-			useAnItem(BattleSim.getSelector());
+			useAnItem(sel2);
 			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
 			return 0;
 		case 3:
@@ -173,7 +172,7 @@ public class Player extends Entities implements PlayerActions{
 			message("Invalid input.");
 			message("You can only type in:");
 			message("moves(1), flee(2), use an item(3), or super attack(4).");
-			return selectAction(BattleSim.getSelector());
+			return selectAction(0, 1);
 		}
 	}
 

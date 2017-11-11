@@ -70,8 +70,8 @@ public class Dragon extends Enemy{
 	}
 
 	@Override
-	public int selectAction(int selector) {
-		if (selector >= 0 && selector < 95) {
+	public int selectAction(int sel, int sel2) {
+		if (sel >= 0 && sel < 95) {
 			useAMove((int) (Math.random() * 100));
 		} else {
 			if(flying == false){

@@ -24,10 +24,10 @@ public class MovePacket extends Packet {
 
 	@Override
 	public void apply() {
-		move.precondition(new Integer(value));
+		boolean b = move.precondition(value);
 		user.message(move.useMessage());
 		double damage = move.getBaseDamage() * ((double) user.getAttack()/10);
-		if(damage > 0) {
+		if(damage > 0 && b) {
 			target.reduceHealth(damage);
 			user.message("The " + target.getName() + " has " + Entities.numberPrinter.format(target.getCurrentHealth()) + " health.");
 			move.doSomething();

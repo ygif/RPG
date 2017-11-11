@@ -5,16 +5,16 @@ import rpgSource.entity.Player;
 
 public class PlayerNormAtk extends Move {
 
-	public PlayerNormAtk(int bd, String n, String d) {
-		super(bd, n, d, "A standard attack.");
+	public PlayerNormAtk(int bd, String n, String u) {
+		super(bd, n, "A standard attack.", u);
 	}
 
-	public PlayerNormAtk(int bd, String n, String d, Entities l) {
-		super(bd, n, d, "A standard attack.", null, l);
+	public PlayerNormAtk(int bd, String n, String u, Entities l) {
+		super(bd, n, "A standard attack.", "", u, l);
 	}
 	
 	public PlayerNormAtk(int bd, String n, String d, String u, Entities l) {
-		super(bd, n, d, u, null, l);
+		super(bd, n, d, "", u, l);
 	}
 
 	@Override

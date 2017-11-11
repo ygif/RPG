@@ -35,7 +35,7 @@ public class Ogre extends Enemy{
 	}
 	
 	@Override
-	public int selectAction(int selector) {
+	public int selectAction(int sel, int sel2) {
 		return 0;
 	}
 	

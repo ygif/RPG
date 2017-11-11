@@ -5,8 +5,6 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import rpgSource.entity.Player;
 import rpgSource.util.DescribableList;
@@ -28,18 +26,17 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	private static final long serialVersionUID = 6038270283388256869L;
 	
 	/** Represents the choice the player chose.*/
-	static int selector = -1;
+	public static boolean proceed = false;
+	public static int sel = -1;
+	public static int secSel = -1;
 	JScrollPane sPane;
 	private FlowLayout layout;
 	static DecimalFormat numberPrinter = new DecimalFormat("###");
-	JTabbedPane menu;
+	static JTabbedPane menu;
 	JLabel playerHealth;
 	JLabel enemyHealth;
 	JLabel playerMp;
-	JButton one;
-	JButton two;
-	JButton three;
-	JButton four;
+	JButton selectMove;
 	JTextArea console;
 	String tpMp;
 	String tpmMp;
@@ -128,21 +125,12 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		sPane.setBounds(250, 300, 200, 200);
 		add(sPane);
 		menu = new JTabbedPane(JTabbedPane.LEFT, JTabbedPane.SCROLL_TAB_LAYOUT);
-		menu.setPreferredSize(new Dimension(400, 100));
-		menu.addChangeListener(hand);
+		menu.setPreferredSize(new Dimension(250, 100));
+		menu.addChangeListener(e -> sel = ((JTabbedPane) e.getSource()).getSelectedIndex());
 		add(menu);
-		one = new JButton("1");
-		two = new JButton("2");
-		three = new JButton("3");
-		four = new JButton("4");
-		one.addActionListener(hand);
-		two.addActionListener(hand);
-		three.addActionListener(hand);
-		four.addActionListener(hand);
-		//add(one);
-		//add(two);
-		//add(three);
-		//add(four);
+		selectMove = new JButton("Select Move");
+		selectMove.addActionListener(hand);
+		add(selectMove);
 		setVisible(true);
 	}
 	
@@ -162,36 +150,38 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 			jl.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 			jl.setLayoutOrientation(JList.VERTICAL);
 			jl.setVisibleRowCount(5);
+			jl.addListSelectionListener(e -> secSel = ((JList<?>) e.getSource()).getMaxSelectionIndex());
 			menu.addTab(list.get(i).getName(), jl);
 		}
 	}
     
-	/**
-	 * Resets the selector.
-	 */
-	public static void resetSelector(){
-		selector = -1;
+	public static int getSel() {
+		waitForProceed();
+		proceed = false;
+		return sel;
 	}
 	
-	class Handler implements ActionListener, ChangeListener{
+	public static int getSel2() {
+		waitForProceed();
+		proceed = false;
+		return secSel;
+	}
+	
+	static void waitForProceed() {
+		while(proceed == false) {
+			try {
+				Thread.sleep(20);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	class Handler implements ActionListener{
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand().equals("1")){
-				selector = 0;
-			}else if(e.getActionCommand().equals("2")){
-				selector = 1;
-			}else if(e.getActionCommand().equals("3")){
-				selector = 2;
-			}else if(e.getActionCommand().equals("4")){
-				selector = 3;
-			}
-		}
-
-		@Override
-		public void stateChanged(ChangeEvent e) {
-			// TODO Auto-generated method stub
-			
+			proceed = true;
 		}
 	}
 }

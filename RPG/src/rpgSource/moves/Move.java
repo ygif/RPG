@@ -19,15 +19,8 @@ public abstract class Move implements Describable{
 	String fail;
 	private boolean passed;
 	
-	private Move(int bd, String n, String d, String u, Entities l) {
-		baseDamage = bd;
-		name = n;
-		des = d;
-		user = l;
-	}
-	
 	public Move(int bd, String n, String d, String u) {
-		this(bd, n, d, u, null, null, (a) -> true);
+		this(bd, n, d, "", u, null, (a) -> true);
 	}
 	
 	public Move(int bd, String n, String d, String f, String u) {
@@ -39,9 +32,13 @@ public abstract class Move implements Describable{
 	}
 	
 	public Move(int bd, String n, String d, String f, String u, Entities l, Predicate<Number> t) {
-		this(bd, n, d, u, l);
-		tester = t;
+		baseDamage = bd;
+		name = n;
+		des = d;
 		fail = f;
+		useMessage = u;
+		user = l;
+		tester = t;
 		passed = false;
 	}
 	

@@ -16,7 +16,7 @@ public class RCAttack extends Move {
 	}
 
 	public RCAttack(int bd, String n, String d, String u, Entities l) {
-		super(bd, n, d, u, null, l);
+		super(bd, n, d, "", u, l);
 	}
 
 	@Override

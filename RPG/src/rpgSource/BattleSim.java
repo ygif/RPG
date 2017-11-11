@@ -24,7 +24,7 @@ public class BattleSim {
 	public static void main(String[] args) {
 		init();
 		try {
-			Thread.sleep(200);
+			Thread.sleep(250);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -44,12 +44,12 @@ public class BattleSim {
 				gui.appendToConsole("It's the players turn.\n");
 				gui.appendToConsole("Choose an action:\n");
 				gui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
-				int temp = (int) player1.selectAction(getSelector());
+				RPGGUI.waitForProceed();
+				int temp = (int) player1.selectAction(RPGGUI.getSel(), RPGGUI.getSel2());
 				if(temp == -1){
 					return "Nobody";
 				}
 				playersTurn = false;
-				RPGGUI.resetSelector();
 			}
 			player1.p.apply();
 			updateStats();
@@ -64,7 +64,7 @@ public class BattleSim {
 					((Dragon) enemy1[x]).land();
 					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
 					playersTurn = true;
-					((Dragon) enemy1[x]).selectAction((int) Math.random() * 100);
+					((Dragon) enemy1[x]).selectAction((int) Math.random() * 100, 0);
 				} else {
 					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
 					enemy1[x].useAMove((int) (Math.random() * 100));
@@ -95,7 +95,7 @@ public class BattleSim {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			temp = RPGGUI.selector;
+			temp = RPGGUI.sel;
 		}	
 		return temp;		
 	}

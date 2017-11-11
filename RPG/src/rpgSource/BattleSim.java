@@ -42,8 +42,6 @@ public class BattleSim {
 			if(playersTurn == true){
 				gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
 				gui.appendToConsole("It's the players turn.\n");
-				gui.appendToConsole("Choose an action:\n");
-				gui.appendToConsole("moves(1), flee(2), use an item(3), or super attack(4).\n");
 				RPGGUI.waitForProceed();
 				int temp = (int) player1.selectAction(RPGGUI.getSel(), RPGGUI.getSel2());
 				if(temp == -1){

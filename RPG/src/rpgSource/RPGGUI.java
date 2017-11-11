@@ -10,7 +10,6 @@ import rpgSource.entity.Player;
 import rpgSource.util.DescribableList;
 import rpgSource.util.DescribableRenderer;
 
-import java.awt.event.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  * @author FlightGuy
  *
  */
-public class RPGGUI extends JFrame /*implements Runnable*/{
+public class RPGGUI extends JFrame {
 	/**
 	 * 
 	 */
@@ -100,7 +99,6 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 	 * Displays the GUI.
 	 */
 	public void showGUI(){
-		Handler hand = new Handler();
 		setAlwaysOnTop(true);
 		tpHealth = BattleSim.getMaxPlayerHealth();
 		tpmHealth = tpHealth;
@@ -129,7 +127,7 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 		menu.addChangeListener(e -> sel = ((JTabbedPane) e.getSource()).getSelectedIndex());
 		add(menu);
 		selectMove = new JButton("Select Move");
-		selectMove.addActionListener(hand);
+		selectMove.addActionListener(e -> proceed = true);
 		add(selectMove);
 		setVisible(true);
 	}
@@ -174,14 +172,6 @@ public class RPGGUI extends JFrame /*implements Runnable*/{
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		}
-	}
-	
-	class Handler implements ActionListener{
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			proceed = true;
 		}
 	}
 }

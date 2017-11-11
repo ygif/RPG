@@ -68,9 +68,6 @@ public class Player extends Entities implements PlayerActions{
 		} else if(m[moveSelector] instanceof MagicMove) {
 			p = new MovePacket(this, getTarget(), m[moveSelector], getMp());
 		} else {
-			message("Invalid input.\n");
-			message("Choose an action:");
-			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			selectAction(RPGGUI.getSel(), RPGGUI.getSel2());
 		}
 	}
@@ -101,12 +98,8 @@ public class Player extends Entities implements PlayerActions{
 			p = new ItemPacket(this, getTarget(), items[1]);
 			return;//Player uses damage potion.
 		default:
-			message("Invalid input.\n");
-			message("Choose an action:");
-			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			selectAction(0, 1);
 		}
-		return;
 	}
 	
 	/**
@@ -140,8 +133,6 @@ public class Player extends Entities implements PlayerActions{
 	public int selectAction(int sel, int sel2) {
 		switch (sel) {
 		case 0:
-			message("\nChose a move.");
-			message("Attack(1), sword slash(2), or magic beam(3).");
 			useAMove(sel2);
 			return 0;
 		case 1:
@@ -160,8 +151,6 @@ public class Player extends Entities implements PlayerActions{
 				return 0;
 			}
 		case 2:
-			message("Choose an item:");
-			message("Health potion(1) or damage potion(2).");
 			useAnItem(sel2);
 			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
 			return 0;
@@ -169,9 +158,6 @@ public class Player extends Entities implements PlayerActions{
 			p = new MovePacket(this, getTarget(), spAtk, charge);
 			return 0;
 		default:
-			message("Invalid input.");
-			message("You can only type in:");
-			message("moves(1), flee(2), use an item(3), or super attack(4).");
 			return selectAction(0, 1);
 		}
 	}

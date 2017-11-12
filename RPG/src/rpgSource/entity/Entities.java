@@ -1,6 +1,5 @@
 package rpgSource.entity;
 
-import java.text.DecimalFormat;
 import rpgSource.Packet;
 import rpgSource.RPGGUI;
 
@@ -13,17 +12,16 @@ import rpgSource.RPGGUI;
 
 public class Entities {
 	String name;
-	private double maxHealth;
+	private int maxHealth;
 	double currentHealth;
 	int attack;
 	int defense;
 	double totalDamage;
-	double level;
+	int level;
 	private int speed;
 	private int maxMp;
 	private int mp;
 	public Packet p;
-	public static DecimalFormat numberPrinter = new DecimalFormat("###");
 	public static RPGGUI ui = RPGGUI.getInstance();
 	
 	Entities(String name, int health, int attack, int defense, int speed) {
@@ -56,10 +54,11 @@ public class Entities {
 	 * @return The entity's new current health.
 	 */
 	public double reduceHealth(double damage) {
-		double tempDamage = damage/*dodgeAttack(damage)*/;
-		currentHealth -= Math.floor(((Math.log(defense) * tempDamage) / 4));
-		ui.appendToConsole(numberPrinter.format(Math.floor(((Math.log(defense) * tempDamage) / 4))) + " Damage\n");
-		currentHealth = Math.floor(currentHealth);
+		if(!dodgeAttack()) {
+			currentHealth -= Math.floor(((Math.log(defense) * damage) / 4));
+			ui.appendToConsole((int) Math.floor(((Math.log(defense) * damage) / 4)) + " Damage\n");
+			currentHealth = Math.floor(currentHealth);
+		}
 		return currentHealth;
 	}
 	
@@ -93,17 +92,13 @@ public class Entities {
 	/**
 	 * This method determines if attack to an entity hits it or misses it.
 	 * @param damage The damaage an incoming attack would deal if the attack hits and defense is ignored.
-	 * @return If the attack misses 0. If the attack hits, the damage the attack would deal if defense is ignored.
+	 * @return If the attack misses or hits
 	 */
-	double dodgeAttack(double damage) {
+	boolean dodgeAttack() {
 		double temp = Math.random();
-		if (temp >= 0.95 && temp < 1) {
-			damage = 0;
-			System.out.println("Miss!");
-			return damage;
-		} else {
-			return damage;
-		}
+		if (temp >= 0.0 && temp < 0.95) { return false; }
+		message("Miss!");
+		return true;
 	}
 	
 	public void restoreHeatlth(int h) {
@@ -146,16 +141,12 @@ public class Entities {
 		this.speed = speed;
 	}
 
-	public double getMaxHealth() {
+	public int getMaxHealth() {
 		return maxHealth;
 	}
 
-	public void setMaxHealth(double maxHealth) {
+	public void setMaxHealth(int maxHealth) {
 		this.maxHealth = maxHealth;
-	}
-	
-	public DecimalFormat getNumFormatter() {
-		return numberPrinter;
 	}
 
 	public int getMp() {

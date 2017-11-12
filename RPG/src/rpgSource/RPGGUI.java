@@ -26,11 +26,10 @@ public class RPGGUI extends JFrame {
 	
 	/** Represents the choice the player chose.*/
 	public static boolean proceed = false;
-	public static int sel = -1;
-	public static int secSel = -1;
+	public static int sel = 0;
+	public static int secSel = 0;
 	JScrollPane sPane;
-	private FlowLayout layout;
-	static DecimalFormat numberPrinter = new DecimalFormat("###");
+	public static DecimalFormat numberPrinter = new DecimalFormat("###");
 	static JTabbedPane menu;
 	JLabel playerHealth;
 	JLabel enemyHealth;
@@ -59,8 +58,8 @@ public class RPGGUI extends JFrame {
 	 * This method updates the GUI so it displays the enemy's current health.
 	 * @param eHealth A string representation of the enemy's current health
 	 */
-	 public void updateEnemyHealth(String eHealth){
-		teHealth = eHealth;
+	 public void updateEnemyHealth(double eHealth){
+		teHealth = numberPrinter.format(eHealth);
 		enemyHealth.setText(enemyName + ": " + teHealth + "/" + temHealth);
 	}
 	 
@@ -68,13 +67,13 @@ public class RPGGUI extends JFrame {
 	  * This method updates the GUI so it displays the player's current health.
 	  * @param pHealth A string representation of the player's current health
 	  */
-	 public void updatePlayerHealth(String pHealth){
-		tpHealth = pHealth;
+	 public void updatePlayerHealth(double pHealth){
+		tpHealth = numberPrinter.format(pHealth);
 		playerHealth.setText("Player: " + tpHealth + "/" + tpmHealth);
 	 }
 	 
-	 public void updatePlayerMp(String pMp) {
-		 tpMp = pMp;
+	 public void updatePlayerMp(int pMp) {
+		 tpMp = Integer.toString(pMp);
 		 playerMp.setText("MP: " + tpMp + "/" + tpmMp);
 	 }
 	 
@@ -100,16 +99,16 @@ public class RPGGUI extends JFrame {
 	 */
 	public void showGUI(){
 		setAlwaysOnTop(true);
-		tpHealth = BattleSim.getMaxPlayerHealth();
+		tpHealth = numberPrinter.format(BattleSim.getMaxPlayerHealth());
 		tpmHealth = tpHealth;
-		tpMp = BattleSim.getMaxPlayerMP();
+		tpMp = Integer.toString(BattleSim.getMaxPlayerMP());
 		tpmMp = tpMp;
-		teHealth = BattleSim.getMaxEnemyHealth();
+		teHealth = numberPrinter.format(BattleSim.getMaxEnemyHealth());
 		temHealth = teHealth;
 		enemyName = BattleSim.getEnemyName();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(400, 300, 400, 400);
-		layout = new FlowLayout();
+		FlowLayout layout = new FlowLayout();
 		setLayout(layout);
 		playerHealth = new JLabel("Player: " + tpHealth + "/" + tpmHealth);
 		add(playerHealth);
@@ -154,18 +153,14 @@ public class RPGGUI extends JFrame {
 	}
     
 	public static int getSel() {
-		waitForProceed();
-		proceed = false;
 		return sel;
 	}
 	
 	public static int getSel2() {
-		waitForProceed();
-		proceed = false;
 		return secSel;
 	}
 	
-	static void waitForProceed() {
+	public static void waitForProceed() {
 		while(proceed == false) {
 			try {
 				Thread.sleep(20);
@@ -173,5 +168,6 @@ public class RPGGUI extends JFrame {
 				e.printStackTrace();
 			}
 		}
+		proceed = false;
 	}
 }

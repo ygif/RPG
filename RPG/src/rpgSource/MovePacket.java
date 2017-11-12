@@ -29,7 +29,7 @@ public class MovePacket extends Packet {
 		double damage = move.getBaseDamage() * ((double) user.getAttack()/10);
 		if(damage > 0 && b) {
 			target.reduceHealth(damage);
-			user.message("The " + target.getName() + " has " + Entities.numberPrinter.format(target.getCurrentHealth()) + " health.");
+			user.message("The " + target.getName() + " has " + RPGGUI.numberPrinter.format(target.getCurrentHealth()) + " health.");
 			move.doSomething();
 		}
 	}

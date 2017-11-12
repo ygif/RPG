@@ -8,6 +8,8 @@ package rpgSource.entity;
  */
 
 public abstract class Enemy extends Entities implements Actions{
+	
+	boolean turn = false;
 
 	Enemy(String name, int level, int health, int attack, int defense, int speed) {
 		super(name, health, attack, defense, speed);
@@ -18,7 +20,4 @@ public abstract class Enemy extends Entities implements Actions{
 		defense += (this.level - 1);
 		speed += (this.level - 1) * 2;
 	}
-	
-	boolean turn = false;
-		
 }

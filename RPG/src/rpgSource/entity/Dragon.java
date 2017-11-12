@@ -60,10 +60,12 @@ public class Dragon extends Enemy{
 			damage = 0;
 			message("The player can't damage a dragon while its in flight.");
 			return currentHealth;
+		} else if(dodgeAttack()) {
+			return currentHealth;
 		} else {
-			double tempDamage = damage/*dodgeAttack(damage)*/;
+			double tempDamage = damage;
 			currentHealth -= Math.floor(((Math.log(defense) * tempDamage) / 4));
-			message(numberPrinter.format(Math.floor(((Math.log(defense) * tempDamage) / 4))) + " Damage");
+			message((int) Math.floor(((Math.log(defense) * tempDamage) / 4)) + " Damage");
 			currentHealth = Math.floor(currentHealth);
 			return currentHealth;
 		}
@@ -72,7 +74,7 @@ public class Dragon extends Enemy{
 	@Override
 	public int selectAction(int sel, int sel2) {
 		if (sel >= 0 && sel < 95) {
-			useAMove((int) (Math.random() * 100));
+			useAMove(sel2);
 		} else {
 			if(flying == false){
 				fly();

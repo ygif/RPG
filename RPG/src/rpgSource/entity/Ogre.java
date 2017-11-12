@@ -27,7 +27,6 @@ public class Ogre extends Enemy{
 		}else if(moveSelector >= 45 && moveSelector < 90){
 			//Club hit
 			p = new MovePacket(this, getTarget(), club);
-
 		}else if (moveSelector >= 90 && moveSelector < 100) {
 			//charge attack
 			p = new MovePacket(this, getTarget(), ram);

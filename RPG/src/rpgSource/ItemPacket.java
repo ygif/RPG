@@ -20,12 +20,12 @@ public class ItemPacket extends Packet {
 	public void apply() {
 		if(item.name.equals("Health Potion")) {
 			user.restoreHeatlth((int) item.useItem());
-			user.message("The " + user.getName() + " has " + Entities.numberPrinter.format(user.getCurrentHealth()) + " health left.");
+			user.message("The " + user.getName() + " has " + RPGGUI.numberPrinter.format(user.getCurrentHealth()) + " health left.");
 		} else {
 			double damage = item.useItem();
 			target.reduceHealthRecoil(damage);
-			target.message(Entities.numberPrinter.format(damage) + " damage\n");
-			target.message("The " + target.getName() + " has " + Entities.numberPrinter.format(target.getCurrentHealth()) + " health.\n");
+			target.message(RPGGUI.numberPrinter.format(damage) + " damage\n");
+			target.message("The " + target.getName() + " has " + RPGGUI.numberPrinter.format(target.getCurrentHealth()) + " health.\n");
 		}
 	}
 }

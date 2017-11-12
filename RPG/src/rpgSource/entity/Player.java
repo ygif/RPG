@@ -68,6 +68,7 @@ public class Player extends Entities implements PlayerActions{
 		} else if(m[moveSelector] instanceof MagicMove) {
 			p = new MovePacket(this, getTarget(), m[moveSelector], getMp());
 		} else {
+			RPGGUI.waitForProceed();
 			selectAction(RPGGUI.getSel(), RPGGUI.getSel2());
 		}
 	}
@@ -78,11 +79,7 @@ public class Player extends Entities implements PlayerActions{
 	 */
 	public boolean flee() {
 		double temp = Math.random();
-		if(temp >= 0.0 && temp < 0.7){
-			return false;
-		}else{
-			return true;
-		}
+		return (temp >= 0.7 && temp < 1.0) ? true : false;
 	}
 	
 	/**
@@ -152,7 +149,7 @@ public class Player extends Entities implements PlayerActions{
 			}
 		case 2:
 			useAnItem(sel2);
-			ui.updatePlayerHealth(numberPrinter.format(getCurrentHealth()));
+			ui.updatePlayerHealth(getCurrentHealth());
 			return 0;
 		case 3:
 			p = new MovePacket(this, getTarget(), spAtk, charge);

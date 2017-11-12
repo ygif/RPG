@@ -1,7 +1,5 @@
 package rpgSource;
 
-import java.text.DecimalFormat;
-
 import javax.swing.*;
 
 import rpgSource.entity.Dragon;
@@ -17,9 +15,7 @@ public class BattleSim {
 	public static int turn = 1;
 	static boolean playersTurn;
 	public static int x;
-	static DecimalFormat numberPrinter = new DecimalFormat("###");
 	static RPGGUI gui;
-	static Thread thread;
 	
 	public static void main(String[] args) {
 		init();
@@ -30,7 +26,7 @@ public class BattleSim {
 		}
 		player1.createMoves();
 		gui.setActionMenu(player1);
-		gui.appendToConsole("Start battle!\n");
+		gui.appendToConsole("Start battle!\n\n");
 		String winner = battle();
 		gui.appendToConsole(winner + " wins.\n");
 		JOptionPane.showMessageDialog(gui, winner + " wins.", "Winner", JOptionPane.INFORMATION_MESSAGE);
@@ -40,7 +36,7 @@ public class BattleSim {
 	public static String battle() {
 		while(player1.getCurrentHealth() > 0 || enemy1[x].getCurrentHealth() > 0 ){
 			if(playersTurn == true){
-				gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
+				gui.updatePlayerMp(player1.getMp());
 				gui.appendToConsole("It's the players turn.\n");
 				RPGGUI.waitForProceed();
 				int temp = (int) player1.selectAction(RPGGUI.getSel(), RPGGUI.getSel2());
@@ -62,7 +58,7 @@ public class BattleSim {
 					((Dragon) enemy1[x]).land();
 					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
 					playersTurn = true;
-					((Dragon) enemy1[x]).selectAction((int) Math.random() * 100, 0);
+					((Dragon) enemy1[x]).selectAction((int) (Math.random() * 100), ((int) Math.random() * 100));
 				} else {
 					gui.appendToConsole("It's the " + enemy1[x].getName() + "'s turn.\n");
 					enemy1[x].useAMove((int) (Math.random() * 100));
@@ -80,9 +76,9 @@ public class BattleSim {
 	}
 	
 	static void updateStats() {
-		gui.updatePlayerHealth(numberPrinter.format(player1.getCurrentHealth()));
-		gui.updatePlayerMp(numberPrinter.format(player1.getMp()));
-		gui.updateEnemyHealth(numberPrinter.format(enemy1[x].getCurrentHealth()));
+		gui.updatePlayerHealth(player1.getCurrentHealth());
+		gui.updatePlayerMp(player1.getMp());
+		gui.updateEnemyHealth(enemy1[x].getCurrentHealth());
 	}
 	
 	public static int getSelector(){
@@ -106,12 +102,12 @@ public class BattleSim {
 		}
 	}
 	
-	static String getMaxPlayerHealth(){
-		return numberPrinter.format(player1.getMaxHealth());
+	static double getMaxPlayerHealth(){
+		return player1.getMaxHealth();
 	}
 	
-	static String getMaxEnemyHealth(){
-		return numberPrinter.format(enemy1[x].getMaxHealth());
+	static double getMaxEnemyHealth(){
+		return enemy1[x].getMaxHealth();
 	}
 	
 	static String getEnemyName(){
@@ -132,7 +128,7 @@ public class BattleSim {
 		setWhoGoesFirst();
 	}
 
-	public static String getMaxPlayerMP() {
-		return numberPrinter.format(player1.getMp());
+	public static int getMaxPlayerMP() {
+		return player1.getMp();
 	}
 }

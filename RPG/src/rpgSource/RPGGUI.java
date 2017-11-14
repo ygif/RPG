@@ -132,6 +132,10 @@ public class RPGGUI extends JFrame {
 	}
 	
 	public void setActionMenu(Player p) {
+		if(menu.getTabCount() == 0) {
+			menu.removeAll();
+		}
+		
 		ArrayList<DescribableList> list = p.al;
 		
 		for(int i = 0; i < list.size(); i++) {

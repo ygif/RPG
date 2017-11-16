@@ -10,7 +10,6 @@ import rpgSource.entity.Player;
 import rpgSource.util.DescribableList;
 import rpgSource.util.DescribableRenderer;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +28,6 @@ public class RPGGUI extends JFrame {
 	public static int sel = 0;
 	public static int secSel = 0;
 	JScrollPane sPane;
-	public static DecimalFormat numberPrinter = new DecimalFormat("###");
 	static JTabbedPane menu;
 	JLabel playerHealth;
 	JLabel enemyHealth;
@@ -58,8 +56,8 @@ public class RPGGUI extends JFrame {
 	 * This method updates the GUI so it displays the enemy's current health.
 	 * @param eHealth A string representation of the enemy's current health
 	 */
-	 public void updateEnemyHealth(double eHealth){
-		teHealth = numberPrinter.format(eHealth);
+	 public void updateEnemyHealth(int eHealth){
+		teHealth = Integer.toString(eHealth);
 		enemyHealth.setText(enemyName + ": " + teHealth + "/" + temHealth);
 	}
 	 
@@ -67,8 +65,8 @@ public class RPGGUI extends JFrame {
 	  * This method updates the GUI so it displays the player's current health.
 	  * @param pHealth A string representation of the player's current health
 	  */
-	 public void updatePlayerHealth(double pHealth){
-		tpHealth = numberPrinter.format(pHealth);
+	 public void updatePlayerHealth(int pHealth){
+		tpHealth = Integer.toString(pHealth);
 		playerHealth.setText("Player: " + tpHealth + "/" + tpmHealth);
 	 }
 	 
@@ -99,11 +97,11 @@ public class RPGGUI extends JFrame {
 	 */
 	public void showGUI(){
 		setAlwaysOnTop(true);
-		tpHealth = numberPrinter.format(BattleSim.getMaxPlayerHealth());
+		tpHealth = Integer.toString(BattleSim.getMaxPlayerHealth());
 		tpmHealth = tpHealth;
 		tpMp = Integer.toString(BattleSim.getMaxPlayerMP());
 		tpmMp = tpMp;
-		teHealth = numberPrinter.format(BattleSim.getMaxEnemyHealth());
+		teHealth = Integer.toString(BattleSim.getMaxEnemyHealth());
 		temHealth = teHealth;
 		enemyName = BattleSim.getEnemyName();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

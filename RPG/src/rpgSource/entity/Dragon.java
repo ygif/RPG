@@ -55,7 +55,7 @@ public class Dragon extends Enemy{
 	}
 	
 	@Override
-	public double reduceHealth(double damage) {
+	public int reduceHealth(int damage) {
 		if (flying == true) {
 			damage = 0;
 			message("The player can't damage a dragon while its in flight.");
@@ -64,9 +64,8 @@ public class Dragon extends Enemy{
 			return currentHealth;
 		} else {
 			double tempDamage = damage;
-			currentHealth -= Math.floor(((Math.log(defense) * tempDamage) / 4));
+			currentHealth -= (int) Math.floor(((Math.log(defense) * tempDamage) / 4));
 			message((int) Math.floor(((Math.log(defense) * tempDamage) / 4)) + " Damage");
-			currentHealth = Math.floor(currentHealth);
 			return currentHealth;
 		}
 	}

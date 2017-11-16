@@ -21,9 +21,9 @@ public class RCAttack extends Move {
 
 	@Override
 	public void doSomething() {
-		double recoil = Math.floor((getBaseDamage() * ((double) user.getAttack()/10)) * 0.1);
+		int recoil = (int) ((getBaseDamage() * ((double) user.getAttack()/10)) * 0.1);
 		user.reduceHealthRecoil(recoil);
-		RPGGUI.getInstance().appendToConsole("The " + user.getName() +" takes " + RPGGUI.numberPrinter.format(recoil) + " recoil damage and has " + 
-				RPGGUI.numberPrinter.format(user.getCurrentHealth()) + " health left.\n");
+		RPGGUI.getInstance().appendToConsole("The " + user.getName() +" takes " + recoil + " recoil damage and has " + 
+				user.getCurrentHealth() + " health left.\n");
 	}
 }

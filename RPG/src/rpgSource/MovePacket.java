@@ -26,10 +26,10 @@ public class MovePacket extends Packet {
 	public void apply() {
 		boolean b = move.precondition(value);
 		user.message(move.useMessage());
-		double damage = move.getBaseDamage() * ((double) user.getAttack()/10);
+		int damage = (int) (move.getBaseDamage() * ((double) user.getAttack()/10) + 1);
 		if(damage > 0 && b) {
 			target.reduceHealth(damage);
-			user.message("The " + target.getName() + " has " + RPGGUI.numberPrinter.format(target.getCurrentHealth()) + " health.");
+			user.message("The " + target.getName() + " has " + target.getCurrentHealth() + " health.");
 			move.doSomething();
 		}
 	}

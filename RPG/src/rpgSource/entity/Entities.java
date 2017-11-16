@@ -13,10 +13,9 @@ import rpgSource.RPGGUI;
 public class Entities {
 	String name;
 	private int maxHealth;
-	double currentHealth;
+	int currentHealth;
 	int attack;
 	int defense;
-	double totalDamage;
 	int level;
 	private int speed;
 	private int maxMp;
@@ -53,11 +52,10 @@ public class Entities {
 	 * @param damage The damage the attack would do if defense is ignored.
 	 * @return The entity's new current health.
 	 */
-	public double reduceHealth(double damage) {
+	public int reduceHealth(int damage) {
 		if(!dodgeAttack()) {
-			currentHealth -= Math.floor(((Math.log(defense) * damage) / 4));
+			currentHealth -= (int) Math.floor(((Math.log(defense) * damage) / 4));
 			ui.appendToConsole((int) Math.floor(((Math.log(defense) * damage) / 4)) + " Damage\n");
-			currentHealth = Math.floor(currentHealth);
 		}
 		return currentHealth;
 	}
@@ -67,9 +65,9 @@ public class Entities {
 	 * @param inputRecoil The damage the recoil will do to the entity. Defense is ignored.
 	 * @return The entity's new current health.
 	 */
-	public double reduceHealthRecoil(double inputRecoil){
+	public int reduceHealthRecoil(int inputRecoil){
 		currentHealth -= inputRecoil;
-		return Math.floor(currentHealth);
+		return currentHealth;
 	}
 	
 	public int reduceMP(int mpUsed) {
@@ -125,7 +123,7 @@ public class Entities {
 		return defense;
 	}
 	
-	public double getCurrentHealth(){
+	public int getCurrentHealth(){
 		return currentHealth;
 	}
 	

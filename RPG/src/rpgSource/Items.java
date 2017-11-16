@@ -3,7 +3,7 @@ package rpgSource;
 public class Items implements Describable{
 	
 	int quantity;
-	double damage;
+	int damage;
 	String name;
 	String usageMessage;
 	String description;
@@ -15,7 +15,7 @@ public class Items implements Describable{
 	 * @param name The name of the item.
 	 * @param usageMessage The message displayed when an item is used.
 	 */
-	public Items(int quantity, double damage, String name, String usageMessage, String description){
+	public Items(int quantity, int damage, String name, String usageMessage, String description){
 		this.quantity = quantity;
 		this.damage = damage;
 		this.name = name;
@@ -27,7 +27,7 @@ public class Items implements Describable{
 	 * This method is ran when the player decides to use an item.
 	 * @return The damage the item does if defense is ignored
 	 */
-	public double useItem(){
+	public int useItem(){
 		if(quantity < 1){
 			RPGGUI.getInstance().appendToConsole("You have ran out of this item.\n");
 		} else {

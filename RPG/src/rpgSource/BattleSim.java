@@ -102,11 +102,11 @@ public class BattleSim {
 		}
 	}
 	
-	static double getMaxPlayerHealth(){
+	static int getMaxPlayerHealth(){
 		return player1.getMaxHealth();
 	}
 	
-	static double getMaxEnemyHealth(){
+	static int getMaxEnemyHealth(){
 		return enemy1[x].getMaxHealth();
 	}
 	

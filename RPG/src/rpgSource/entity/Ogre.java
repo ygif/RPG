@@ -1,7 +1,7 @@
 package rpgSource.entity;
 
 import rpgSource.BattleSim;
-import rpgSource.MovePacket;
+import rpgSource.battleSystem.MovePacket;
 import rpgSource.moves.Move;
 import rpgSource.moves.NormAtk;
 import rpgSource.moves.RCAttack;

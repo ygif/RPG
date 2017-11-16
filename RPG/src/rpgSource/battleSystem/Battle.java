@@ -1,4 +1,4 @@
-package rpgSource;
+package rpgSource.battleSystem;
 
 import java.util.Arrays;
 

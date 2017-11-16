@@ -2,8 +2,6 @@ package rpgSource.util;
 
 import java.util.ArrayList;
 
-import rpgSource.Describable;
-
 public class DescribableList implements Describable {
 
 	String name;

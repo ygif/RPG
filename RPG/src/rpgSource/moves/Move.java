@@ -4,9 +4,8 @@ import java.util.function.DoubleSupplier;
 import java.util.function.IntSupplier;
 import java.util.function.Predicate;
 
-import rpgSource.Describable;
-
 import rpgSource.entity.Entities;
+import rpgSource.util.Describable;
 
 public abstract class Move implements Describable{
 

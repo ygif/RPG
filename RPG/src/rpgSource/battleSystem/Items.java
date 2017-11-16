@@ -1,4 +1,7 @@
-package rpgSource;
+package rpgSource.battleSystem;
+
+import rpgSource.RPGGUI;
+import rpgSource.util.Describable;
 
 public class Items implements Describable{
 	

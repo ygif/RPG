@@ -3,11 +3,11 @@ package rpgSource.entity;
 import java.util.ArrayList;
 
 import rpgSource.BattleSim;
-import rpgSource.ItemPacket;
-import rpgSource.Items;
-import rpgSource.MovePacket;
-import rpgSource.Packet;
 import rpgSource.RPGGUI;
+import rpgSource.battleSystem.ItemPacket;
+import rpgSource.battleSystem.Items;
+import rpgSource.battleSystem.MovePacket;
+import rpgSource.battleSystem.Packet;
 import rpgSource.moves.MagicMove;
 import rpgSource.moves.Move;
 import rpgSource.moves.SpecialAttack;

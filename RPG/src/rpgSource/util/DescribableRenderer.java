@@ -7,8 +7,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-import rpgSource.Describable;
-
 public class DescribableRenderer implements ListCellRenderer<Describable>{
 
 	public DescribableRenderer() {

@@ -1,7 +1,7 @@
 package rpgSource.entity;
 
-import rpgSource.Packet;
 import rpgSource.RPGGUI;
+import rpgSource.battleSystem.Packet;
 
 /**
  * This class contains everything an entity in a battle should have.

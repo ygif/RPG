@@ -1,4 +1,4 @@
-package rpgSource;
+package rpgSource.util;
 
 public interface Describable {
 	public String getName();

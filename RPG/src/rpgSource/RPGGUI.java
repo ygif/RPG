@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import javax.swing.*;
 
 import rpgSource.entity.Player;
+import rpgSource.util.Describable;
 import rpgSource.util.DescribableList;
 import rpgSource.util.DescribableRenderer;
 

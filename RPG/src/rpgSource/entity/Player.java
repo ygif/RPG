@@ -8,6 +8,8 @@ import rpgSource.battleSystem.ItemPacket;
 import rpgSource.battleSystem.Items;
 import rpgSource.battleSystem.MovePacket;
 import rpgSource.battleSystem.Packet;
+import rpgSource.battleSystem.StatusEffect;
+import rpgSource.battleSystem.StatusEffect.StatusEffectType;
 import rpgSource.moves.MagicMove;
 import rpgSource.moves.Move;
 import rpgSource.moves.SpecialAttack;
@@ -27,6 +29,7 @@ public class Player extends Entities implements PlayerActions{
 		super("player", health, attack, defense, speed, mp);
 		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion", "Heals a target by 15 health");
 		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.", "Damages a target by 15 health");
+		se.add(new StatusEffect("defense", "modifies defense", this.name + "defense was lowered", "", 2.0, StatusEffectType.ON_STAT));
 	}
 	
 	public void createMoves() {
@@ -111,7 +114,7 @@ public class Player extends Entities implements PlayerActions{
 			currentHealth = getMaxHealth();
 			attack += 4;
 			defense += 2;
-			setSpeed(getSpeed() + 2);
+			setSpeed(getActualSpeed() + 2);
 			message("");
 			//message("The player has " + experiencePoints + " exp.");
 			message("The player is now level " + level + ".");

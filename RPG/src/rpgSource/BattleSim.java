@@ -70,6 +70,8 @@ public class BattleSim {
 				return "The enemy";
 			}
 			updateStats();
+			player1.update();
+			enemy1[x].update();
 			turn++;
 		}
 		return "nobody";
@@ -95,7 +97,7 @@ public class BattleSim {
 	}
 	
 	static void setWhoGoesFirst() {
-		if (player1.getSpeed() >= enemy1[x].getSpeed()) {
+		if (player1.getActualSpeed() >= enemy1[x].getActualSpeed()) {
 			playersTurn = true;
 		} else {
 			playersTurn = false;

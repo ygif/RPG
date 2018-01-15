@@ -1,7 +1,12 @@
 package rpgSource.entity;
 
+import java.util.ArrayList;
+
 import rpgSource.RPGGUI;
 import rpgSource.battleSystem.Packet;
+import rpgSource.battleSystem.StatusEffect;
+import rpgSource.battleSystem.StatusEffect.StatusEffectType;
+import rpgSource.util.Updateable;
 
 /**
  * This class contains everything an entity in a battle should have.
@@ -10,7 +15,7 @@ import rpgSource.battleSystem.Packet;
  *
  */
 
-public class Entities {
+public class Entities implements Updateable{
 	String name;
 	private int maxHealth;
 	int currentHealth;
@@ -22,15 +27,10 @@ public class Entities {
 	private int mp;
 	public Packet p;
 	public static RPGGUI ui = RPGGUI.getInstance();
+	public ArrayList<StatusEffect> se;
 	
 	Entities(String name, int health, int attack, int defense, int speed) {
-		this.name = name;
-		setMaxHealth(health);
-		currentHealth = health;
-		this.attack = attack;
-		this.defense = defense;
-		this.setSpeed(speed);
-		maxMp = setMp(0);
+		this(name, health, attack, defense, speed, 0);
 	}
 	
 	Entities(String name, int health, int attack, int defense, int speed, int mp) {
@@ -41,6 +41,7 @@ public class Entities {
 		this.defense = defense;
 		this.setSpeed(speed);
 		maxMp = this.setMp(mp);
+		se = new ArrayList<StatusEffect>();
 	}
 	
 	Entities(){
@@ -52,10 +53,11 @@ public class Entities {
 	 * @param damage The damage the attack would do if defense is ignored.
 	 * @return The entity's new current health.
 	 */
+	//TODO: modify how defense works
 	public int reduceHealth(int damage) {
 		if(!dodgeAttack()) {
-			currentHealth -= (int) Math.floor(((Math.log(defense) * damage) / 4));
-			ui.appendToConsole((int) Math.floor(((Math.log(defense) * damage) / 4)) + " Damage\n");
+			currentHealth -= (int) Math.floor(((Math.log(getDefense()) * damage) / 4));
+			ui.appendToConsole((int) Math.floor(((Math.log(getDefense()) * damage) / 4)) + " Damage\n");
 		}
 		return currentHealth;
 	}
@@ -111,6 +113,17 @@ public class Entities {
 		ui.appendToConsole(s + "\n");
 	}
 	
+	@Override
+	public void update() {
+		for(int i = 0; i < se.size(); i++) {
+			se.get(i).update();
+			if(se.get(i).getLength() <= 0) {
+				se.remove(i);
+				i--;
+			}
+		}
+	}
+	
 	/**
 	 * This method returns the entity's name.
 	 * @return The entity's name.
@@ -119,22 +132,54 @@ public class Entities {
 		return name;
 	}
 	
-	public int getDefense(){
+	public int getActualDefense(){
 		return defense;
+	}
+	
+	public int getActualAttack(){
+		return attack;
+	}
+
+	public int getActualSpeed() {
+		return speed;
+	}
+	
+	public int getDefense(){
+		int temp = defense;
+		for (int i = 0; i < se.size(); i++) {
+			if(se.get(i).setype == StatusEffectType.ON_STAT && se.get(i).getName().equals("defense")) {
+				temp += (int) (se.get(i).value * getActualDefense()) - getActualDefense();
+			}
+		}
+		return temp;
+	}
+	
+	public int getAttack(){
+		int temp = attack;
+		for (int i = 0; i < se.size(); i++) {
+			if(se.get(i).setype == StatusEffectType.ON_STAT && se.get(i).getName().equals("attack")) {
+				int dd =(int) ((se.get(i).value * getActualAttack()) - getActualAttack());
+				temp += dd;
+			}
+		}
+		return temp;
+	}
+
+	public int getSpeed() {
+		int temp = speed;
+		for (int i = 0; i < se.size(); i++) {
+			if(se.get(i).setype == StatusEffectType.ON_STAT && se.get(i).getName().equals("speed")) {
+				
+				temp += (int) ((se.get(i).value * getActualSpeed()) - getActualSpeed());
+			}
+		}
+		return temp;
 	}
 	
 	public int getCurrentHealth(){
 		return currentHealth;
 	}
 	
-	public int getAttack(){
-		return attack;
-	}
-
-	public int getSpeed() {
-		return speed;
-	}
-
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}

@@ -36,7 +36,6 @@ public class Items implements Describable{
 		} else {
 			quantity--;
 			RPGGUI.getInstance().appendToConsole(usageMessage + "\n");
-			//System.out.println(quantity);
 			return damage;
 		}
 		return 0;

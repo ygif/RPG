@@ -47,7 +47,6 @@ public class StatusEffect implements Describable, Updateable{
 		if(length <= 0) {
 			length = 0;
 		}
-		System.out.println(length + "\n");
 	}
 	
 	public int getLength() {
@@ -70,7 +69,7 @@ public class StatusEffect implements Describable, Updateable{
 	}
 	
 	public enum StatusEffectType {
-		END_OF_TURN, ON_STAT;
+		END_OF_TURN, ON_STAT, BOTH;
 	}
 
 	@Override

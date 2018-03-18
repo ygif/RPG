@@ -11,17 +11,17 @@ import rpgSource.entity.Entities;
  */
 public class RCAttack extends Move {
 
-	public RCAttack(int bd, String n, String d, String u) {
-		super(bd, n, d, u);
+	public RCAttack(double mul, String n, String d, String u) {
+		super(mul, n, d, u);
 	}
 
-	public RCAttack(int bd, String n, String d, String u, Entities l) {
-		super(bd, n, d, "", u, l);
+	public RCAttack(double mul, String n, String d, String u, Entities l) {
+		super(mul, n, d, "", u, l);
 	}
 
 	@Override
 	public void doSomething() {
-		int recoil = (int) ((getBaseDamage() * ((double) user.getAttack()/10)) * 0.1);
+		int recoil = (int) ((getMultiplier() * user.getAttack() * 0.1)/ user.getDefense());
 		user.reduceHealthRecoil(recoil);
 		RPGGUI.getInstance().appendToConsole("The " + user.getName() +" takes " + recoil + " recoil damage and has " + 
 				user.getCurrentHealth() + " health left.\n");

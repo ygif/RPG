@@ -26,7 +26,7 @@ public class MovePacket extends Packet {
 	public void apply() {
 		boolean b = move.precondition(value);
 		user.message(move.useMessage());
-		int damage = (int) (move.getBaseDamage() * ((double) user.getAttack()/10) + 1);
+		int damage = (int) ((move.getMultiplier() * user.getAttack() * user.getLevel())/ target.getDefense() + 1);
 		if(damage > 0 && b) {
 			target.reduceHealth(damage);
 			user.message("The " + target.getName() + " has " + target.getCurrentHealth() + " health.");

@@ -9,7 +9,7 @@ import rpgSource.entity.Ogre;
 import rpgSource.entity.Player;
 
 public class BattleSim {
-	public static Player player1 = new Player(45, 15, 10, 12, 10);
+	public static Player player1 = new Player(45, 24, 16, 12, 10);
 	public static Enemy[] enemy1 = new Enemy[3];
 	static double damage = 0;
 	public static int turn = 1;
@@ -117,9 +117,9 @@ public class BattleSim {
 	}
 
 	static void init(){
-		enemy1[0] = new Ogre("ogre", 2, 40, 8, 8, 10);
-		enemy1[1] = new Dragon("dragon", 2, 30, 7, 9, 10);
-		enemy1[2] = new MegaOgre("mega ogre", 2, 40, 10, 9, 8);
+		enemy1[0] = new Ogre("ogre", 2, 40, 15, 8, 10);
+		enemy1[1] = new Dragon("dragon", 2, 30, 18, 9, 10);
+		enemy1[2] = new MegaOgre("mega ogre", 2, 40, 22, 9, 8);
 		Object[] options = {enemy1[0].getName(), enemy1[1].getName(), enemy1[2].getName()};
 		x = JOptionPane.showOptionDialog(null, "Select your enemy.", "Enemy Selector", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, options[1]);
 		if(x == -1){

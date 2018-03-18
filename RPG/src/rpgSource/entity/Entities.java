@@ -36,6 +36,7 @@ public class Entities implements Updateable{
 	Entities(String name, int health, int attack, int defense, int speed, int mp) {
 		this.name = name;
 		setMaxHealth(health);
+		level = 2;
 		currentHealth = health;
 		this.attack = attack;
 		this.defense = defense;
@@ -56,8 +57,8 @@ public class Entities implements Updateable{
 	//TODO: modify how defense works
 	public int reduceHealth(int damage) {
 		if(!dodgeAttack()) {
-			currentHealth -= (int) Math.floor(((Math.log(getDefense()) * damage) / 4));
-			ui.appendToConsole((int) Math.floor(((Math.log(getDefense()) * damage) / 4)) + " Damage\n");
+			currentHealth -= damage;
+			ui.appendToConsole(damage + " Damage\n");
 		}
 		return currentHealth;
 	}
@@ -116,6 +117,12 @@ public class Entities implements Updateable{
 	@Override
 	public void update() {
 		for(int i = 0; i < se.size(); i++) {
+			StatusEffect s = se.get(i);
+			if(s.setype.equals(StatusEffectType.END_OF_TURN) || s.setype.equals(StatusEffectType.BOTH)) {
+				reduceHealthRecoil((int) (s.value * maxHealth));
+			}
+		}
+		for(int i = 0; i < se.size(); i++) {
 			se.get(i).update();
 			if(se.get(i).getLength() <= 0) {
 				se.remove(i);
@@ -147,7 +154,8 @@ public class Entities implements Updateable{
 	public int getDefense(){
 		int temp = defense;
 		for (int i = 0; i < se.size(); i++) {
-			if(se.get(i).setype == StatusEffectType.ON_STAT && se.get(i).getName().equals("defense")) {
+			if((se.get(i).setype == StatusEffectType.ON_STAT || se.get(i).setype == StatusEffectType.BOTH)
+					&& se.get(i).getName().equals("defense")) {
 				temp += (int) (se.get(i).value * getActualDefense()) - getActualDefense();
 			}
 		}
@@ -157,7 +165,8 @@ public class Entities implements Updateable{
 	public int getAttack(){
 		int temp = attack;
 		for (int i = 0; i < se.size(); i++) {
-			if(se.get(i).setype == StatusEffectType.ON_STAT && se.get(i).getName().equals("attack")) {
+			if((se.get(i).setype == StatusEffectType.ON_STAT || se.get(i).setype == StatusEffectType.BOTH)
+					&& se.get(i).getName().equals("attack")) {
 				int dd =(int) ((se.get(i).value * getActualAttack()) - getActualAttack());
 				temp += dd;
 			}
@@ -168,7 +177,8 @@ public class Entities implements Updateable{
 	public int getSpeed() {
 		int temp = speed;
 		for (int i = 0; i < se.size(); i++) {
-			if(se.get(i).setype == StatusEffectType.ON_STAT && se.get(i).getName().equals("speed")) {
+			if((se.get(i).setype == StatusEffectType.ON_STAT || se.get(i).setype == StatusEffectType.BOTH)
+					&& se.get(i).getName().equals("speed")) {
 				
 				temp += (int) ((se.get(i).value * getActualSpeed()) - getActualSpeed());
 			}
@@ -203,6 +213,10 @@ public class Entities implements Updateable{
 	
 	public int getMaxMp() {
 		return maxMp;
+	}
+	
+	public int getLevel() {
+		return level;
 	}
 }
 

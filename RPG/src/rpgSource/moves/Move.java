@@ -9,7 +9,7 @@ import rpgSource.util.Describable;
 
 public abstract class Move implements Describable{
 
-	private int baseDamage;
+	private double multiplier;
 	private String name;
 	private String des;
 	private String useMessage;
@@ -18,20 +18,20 @@ public abstract class Move implements Describable{
 	String fail;
 	private boolean passed;
 	
-	public Move(int bd, String n, String d, String u) {
-		this(bd, n, d, "", u, null, (a) -> true);
+	public Move(double mul, String n, String d, String u) {
+		this(mul, n, d, "", u, null, (a) -> true);
 	}
 	
-	public Move(int bd, String n, String d, String f, String u) {
-		this(bd, n, d, f, u, null, (a) -> true);
+	public Move(double mul, String n, String d, String f, String u) {
+		this(mul, n, d, f, u, null, (a) -> true);
 	}
 
-	public Move(int bd, String n, String d, String f, String u, Entities l) {
-		this(bd, n, d, f, u, l, (a) -> true);
+	public Move(double mul, String n, String d, String f, String u, Entities l) {
+		this(mul, n, d, f, u, l, (a) -> true);
 	}
 	
-	public Move(int bd, String n, String d, String f, String u, Entities l, Predicate<Number> t) {
-		baseDamage = bd;
+	public Move(double mul, String n, String d, String f, String u, Entities l, Predicate<Number> t) {
+		multiplier = mul;
 		name = n;
 		des = d;
 		fail = f;
@@ -65,8 +65,8 @@ public abstract class Move implements Describable{
 		return passed ? useMessage : fail;
 	}
 	
-	public int getBaseDamage() {
-		return passed ? baseDamage : 0;
+	public double getMultiplier() {
+		return passed ? multiplier : 0;
 	}
 	
 	public String getName() {
@@ -78,6 +78,6 @@ public abstract class Move implements Describable{
 	}
 	
 	public String[] getExtraInfo() {
-		return new String[] {"Base Damage: " + baseDamage};
+		return new String[] {"Multiplier: " + multiplier};
 	}
 }

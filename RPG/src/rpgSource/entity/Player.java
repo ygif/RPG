@@ -29,14 +29,14 @@ public class Player extends Entities implements PlayerActions{
 		super("player", health, attack, defense, speed, mp);
 		items[0] = new Items(2, 15, "Health Potion", "The player drinks a health potion", "Heals a target by 15 health");
 		items[1] = new Items(2, 15, "Damage Potion", "The player throws a damage potion at the enemy.", "Damages a target by 15 health");
-		se.add(new StatusEffect("defense", "modifies defense", this.name + "defense was lowered", "", 2.0, StatusEffectType.ON_STAT));
+		se.add(new StatusEffect("defense", "modifies defense", this.name + "defense was lowered", "", 0.5, StatusEffectType.ON_STAT));
 	}
 	
 	public void createMoves() {
-		m[0] = new PlayerNormAtk(10, "regular attack", "The player attacks the enemy.", this);
-		m[1] = new PlayerNormAtk(14, "sword","Use a sword to damage a target" , "The player slashes at the enemy with a sword.", this);
-		m[2] = new MagicMove(18, "magic beam", "A beam concentrated magic. Uses MP","The player emits a beam of concentrated magic at the enemy." ,this, 5);
-		spAtk = new SpecialAttack(30, "super move", "The player uses the special move.", 
+		m[0] = new PlayerNormAtk(1.0, "regular attack", "The player attacks the enemy.", this);
+		m[1] = new PlayerNormAtk(1.4, "sword","Use a sword to damage a target" , "The player slashes at the enemy with a sword.", this);
+		m[2] = new MagicMove(1.8, "magic beam", "A beam concentrated magic. Uses MP","The player emits a beam of concentrated magic at the enemy." ,this, 5);
+		spAtk = new SpecialAttack(2.9, "super move", "The player uses the special move.", 
 				"The player is not completely charged up yet.", "A powerful attack that needs time charge.", this);
 		al = new ArrayList<DescribableList>();
 		DescribableList ul1 = new DescribableList("Moves", m);

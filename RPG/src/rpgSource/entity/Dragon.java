@@ -11,6 +11,9 @@ public class Dragon extends Enemy{
 	private Move fireball;
 	private Move flamethrower;
 	
+	public boolean flying = false;
+	int endFlight;
+	
 	@Override
 	public String toString() {
 		return "Dragon";
@@ -19,14 +22,11 @@ public class Dragon extends Enemy{
 	public Dragon(String name, int level, int health, int attack, int defense, int speed) {
 		super(name, level, health, attack, defense, speed);
 		this.name = name;
-		atk = new NormAtk(14, "normal attack", "The " + name + " attacks the player.", this);
-		fireball = new NormAtk(19, "fireball", "The " + name + " spits out a ball of fire at the player.", "A fireball", this);
-		flamethrower = new NormAtk(25, "flamethrower", "The " + name + " breathes out an enormous amount of flames at the player",
+		atk = new NormAtk(1.4, "normal attack", "The " + name + " attacks the player.", this);
+		fireball = new NormAtk(1.9, "fireball", "The " + name + " spits out a ball of fire at the player.", "A fireball", this);
+		flamethrower = new NormAtk(2.5, "flamethrower", "The " + name + " breathes out an enormous amount of flames at the player",
 				"Release a continuous flame for a little bit",this);
 	}
-	
-	public boolean flying = false;
-	int endFlight;
 	
 	@Override
 	public void useAMove(int moveSelector) {
